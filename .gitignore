@@ -1,0 +1,18 @@
+
+*.dll
+*.tlog
+*.obj
+Debug/vc141.idb
+Debug/vc141.pdb
+Debug/y tho.exe
+Debug/y tho.ilk
+Debug/y tho.log
+Debug/y tho.pdb
+.vs/y tho/v15/.suo
+.vs/y tho/v15/Browse.VC.db
+.vs/y tho/v15/ipch/AutoPCH/132885979162394c/ANIMATION.ipch
+.vs/y tho/v15/Browse.VC.opendb
+.vs/y tho/v15/ipch/AutoPCH/16e651b0efee666d/PLATFORM.ipch
+.vs/y tho/v15/ipch/AutoPCH/3784be6bb02b949c/GAME.ipch
+.vs/y tho/v15/ipch/AutoPCH/605630db80d1304c/GAME.ipch
+.vs/y tho/v15/ipch/AutoPCH/3a5b0fded1b40699/PLAYER.ipch

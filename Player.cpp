@@ -1,17 +1,23 @@
 #include "Player.h"
 
-
-Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this), runAnim(*this), jumpAnim(*this), elapsed(elapsed)
+Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),
+									runAnim(*this), jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false),
+										state(idle), m_feetBox(0, 0, 35, 10), bIsPressingKey(false)
 {
 	this->setTexture(tex);
 	initializeAnims();
 
-	bIsFacingLeft = false;
-	state = idle;
+	//TODO: actually calculate this
+	m_spriteSize = sf::Vector2f(136, 96);
 
-	spriteSize = sf::Vector2f(136, 96);
+	this->setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
-	this->setOrigin(spriteSize.x / 2, spriteSize.y / 2);
+	m_rect.setOrigin(20, 34);
+	m_rect.setSize(sf::Vector2f(40.0f, 60.0f));
+	m_rect.setOutlineColor(sf::Color::Black);
+	m_rect.setOutlineThickness(1.0f);
+	m_rect.setFillColor(sf::Color::Transparent);
+	
 }
 
 
@@ -69,6 +75,11 @@ void Player::update()
 		bIsTouchingFloor = false;
 	}
 
+	m_rect.setPosition(this->getPosition());
+	m_rect.setRotation(this->getRotation());
+	m_feetBox.left = this->getPosition().x - 20;
+	m_feetBox.top = this->getPosition().y - 30;
+
 }
 
 void Player::handleDirection()
@@ -80,6 +91,8 @@ void Player::handleDirection()
 		this->setScale(-1, 1);
 	}
 }
+
+#pragma region Input + Actions
 
 void Player::handleInput()
 {
@@ -99,9 +112,21 @@ void Player::handleInput()
 	{
 		attack();
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !bIsPressingKey)
 	{
 		jump();
+		bIsPressingKey = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && !bIsPressingKey) 
+	{
+		Helpers::bDebugMode = !Helpers::bDebugMode;
+		bIsPressingKey = true;
+	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+	{
+		bIsPressingKey = false;
 	}
 
 	if (!Helpers::isAnyRelevantKeyPressed() && state != jumping) 
@@ -166,6 +191,7 @@ void Player::jump()
 	}
 }
 
+#pragma endregion
 
 void Player::initializeAnims()
 {

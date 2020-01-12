@@ -15,7 +15,7 @@ Animation::~Animation()
 void Animation::addFrame(Frame && frame)
 {
 	totalLength += frame.duration;
-	frames.push_back(std::move(frame));
+	frames.push_back(std::move(frame)); //using std::move eliminates the copy step from push_back
 }
 
 void Animation::update(double elapsed)

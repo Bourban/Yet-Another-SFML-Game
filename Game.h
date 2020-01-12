@@ -17,7 +17,7 @@ private:
 	sf::Clock clock;
 	double elapsed;
 
-	std::vector<sf::Sprite> platforms;
+	std::vector<Platform> platforms;
 
 	sf::Texture playerTex;
 	sf::Texture grassTex;

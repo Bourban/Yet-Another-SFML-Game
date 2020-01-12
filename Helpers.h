@@ -8,6 +8,8 @@ namespace Helpers
 
 	static const double MS_PER_UPDATE = 1000 / 60;
 
+	extern bool bDebugMode;
+
 	static bool isAnyKeyPressed()
 	{
 		for (int k = -1; k < sf::Keyboard::KeyCount; ++k)
@@ -29,11 +31,21 @@ namespace Helpers
 			return true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			return true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			return true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			return true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			return true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+			return true;
+
+		return false;
+	}
+
+	static bool isAnyToggleableKeyPressed()
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			return true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 			return true;
 
 		return false;

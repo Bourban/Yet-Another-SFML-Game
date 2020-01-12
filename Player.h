@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics\Sprite.hpp>
 #include <SFML\Window\Keyboard.hpp>
+#include <SFML\Graphics\RectangleShape.hpp>
 #include "Animation.h"
 #include "Helpers.h"
 
@@ -33,6 +34,7 @@ private:
 	void jump();
 
 //variables
+
 private:
 	State state;
 
@@ -44,11 +46,19 @@ private:
 
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft;
+	bool bIsPressingKey;
+
 
 	double &elapsed;
 	float fDeltaY;
 
-	sf::Vector2f spriteSize;
+	sf::Vector2f m_spriteSize;
+
+	sf::Rect<int> m_feetBox;
+
+public:
+
+	sf::RectangleShape m_rect;
 
 };
 

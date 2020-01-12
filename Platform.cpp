@@ -5,13 +5,10 @@
 Platform::Platform(sf::Texture & tex)
 {
 	this->setTexture(tex);
-
 }
 
-
-Platform::Platform(sf::Texture & tex, int x, int y)
+Platform::Platform(sf::Texture & tex, int x, int y) : sf::Sprite(tex)
 {
-	this->setTexture(tex);
 	this->setPosition(x, y);
 
 	rect.height = tex.getSize().y;
@@ -21,6 +18,10 @@ Platform::Platform(sf::Texture & tex, int x, int y)
 
 	pls.setPosition(x, y);
 	pls.setSize(sf::Vector2f(rect.width, rect.height));
+
+	pls.setFillColor(sf::Color::Transparent);
+	pls.setOutlineThickness(1.0f);
+	pls.setOutlineColor(sf::Color::Black);
 }
 
 Platform::~Platform()
