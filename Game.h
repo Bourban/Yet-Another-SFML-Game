@@ -12,15 +12,23 @@ public:
 	~Game();
 	void run();
 	void update();
+	void render();
+
+
+	//Variables
 
 private:
 	sf::Clock clock;
 	double elapsed;
 
+	sf::RenderWindow window;
+
 	std::vector<Platform> platforms;
 
 	sf::Texture playerTex;
 	sf::Texture grassTex;
+
+	Player* p_player;
 
 };
 

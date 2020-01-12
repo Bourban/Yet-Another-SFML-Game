@@ -48,7 +48,6 @@ private:
 	bool bIsFacingLeft;
 	bool bIsPressingKey;
 
-
 	double &elapsed;
 	float fDeltaY;
 
