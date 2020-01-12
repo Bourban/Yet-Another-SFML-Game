@@ -22,7 +22,7 @@ void Game::run()
 
 	platforms.push_back(Platform(grassTex, 0, 600));
 	platforms.push_back(Platform(grassTex, 300, 600));
-	platforms.push_back(Platform(grassTex, 600, 600));
+	//platforms.push_back(Platform(grassTex, 600, 600));
 	platforms.push_back(Platform(grassTex, 900, 600));
 
 	p_player = new Player(playerTex, elapsed);
@@ -72,12 +72,14 @@ void Game::update()
 {
 	for each (Platform p in platforms)
 	{
-		if (p_player->m_feetBox.intersects(p.getRect()) && p_player->getDeltaY() <= 0)
+		if (p_player->m_feetBox.intersects(p.getRect()) && p_player->getDeltaY() < 0)
 		{
 			p_player->setIsTouchingFloor(true);
 
 			break;
 		}
+
+		p_player->setIsTouchingFloor(false);
 	}
 
 	p_player->update();
