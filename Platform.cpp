@@ -13,10 +13,10 @@ Platform::Platform(sf::Texture & tex, int x, int y) : sf::Sprite(tex)
 
 	rect.height = tex.getSize().y;
 	rect.width = tex.getSize().x;
-	rect.top = x;
-	rect.left = y;
+	rect.left = x;
+	rect.top = y;
 
-	pls.setPosition(x, y);
+	pls.setPosition(rect.left, rect.top);
 	pls.setSize(sf::Vector2f(rect.width, rect.height));
 
 	pls.setFillColor(sf::Color::Transparent);

@@ -3,8 +3,9 @@
 
 extern bool Helpers::bDebugMode = false;
 
-Game::Game() : window(sf::VideoMode(1280, 720), "SideScroller!")
+Game::Game() : window(sf::VideoMode(1280, 720), "SideScroller!"), timeSinceLastUpdate(0.0f)
 {
+	window.setFramerateLimit(60);
 }
 
 Game::~Game()
@@ -14,7 +15,6 @@ Game::~Game()
 
 void Game::run()
 {
-	window.setFramerateLimit(60);
 
 	//These need to be loaded in the scope of run()
 	playerTex.loadFromFile("Assets/barbarian boi.png");
@@ -42,7 +42,7 @@ void Game::run()
 
 		elapsed = clock.restart().asSeconds();
 
-		p_player->update();
+		update();
 		
 		render();
 
@@ -70,6 +70,17 @@ void Game::render()
 
 void Game::update()
 {
+	for each (Platform p in platforms)
+	{
+		if (p_player->m_feetBox.intersects(p.getRect()) && p_player->getDeltaY() <= 0)
+		{
+			p_player->setIsTouchingFloor(true);
+
+			break;
+		}
+	}
+
+	p_player->update();
 
 }
 

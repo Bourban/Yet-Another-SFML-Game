@@ -14,12 +14,13 @@ public:
 	void update();
 	void render();
 
-
 	//Variables
 
 private:
 	sf::Clock clock;
 	double elapsed;
+
+	float timeSinceLastUpdate;
 
 	sf::RenderWindow window;
 

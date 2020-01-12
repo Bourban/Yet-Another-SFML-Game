@@ -19,6 +19,11 @@ public:
 
 	void update();
 
+	void setIsTouchingFloor(bool val);
+
+	float getDeltaY() const;
+
+
 	//sf::Sprite inherits from sf::Drawable -- No draw method required
 
 private:
@@ -48,15 +53,17 @@ private:
 	bool bIsFacingLeft;
 	bool bIsPressingKey;
 
+	//Passing this for the animations -- update() frequency is controlled by Game::update()
 	double &elapsed;
 	float fDeltaY;
 
 	sf::Vector2f m_spriteSize;
 
-	sf::Rect<int> m_feetBox;
+	
 
 public:
 
+	sf::Rect<int> m_feetBox;
 	sf::RectangleShape m_rect;
 
 };

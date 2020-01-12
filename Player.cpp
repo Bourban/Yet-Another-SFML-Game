@@ -1,5 +1,7 @@
 #include "Player.h"
 
+//There's lots of hard-coded values in this file which I intend to address after I've added a bit more functionality
+
 Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),
 									runAnim(*this), jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false),
 										state(idle), m_feetBox(0, 0, 35, 10), bIsPressingKey(false)
@@ -12,14 +14,13 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 
 	this->setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
-	m_rect.setOrigin(20, 34);
-	m_rect.setSize(sf::Vector2f(40.0f, 60.0f));
+	//m_rect.setOrigin(20, 34);
+	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
 	m_rect.setOutlineColor(sf::Color::Black);
 	m_rect.setOutlineThickness(1.0f);
 	m_rect.setFillColor(sf::Color::Transparent);
 	
 }
-
 
 Player::~Player()
 {
@@ -58,7 +59,7 @@ void Player::update()
 		break;
 	}
 
-	if (this->getPosition().y > Helpers::GROUND_HEIGHT)
+	/*if (this->getPosition().y > Helpers::GROUND_HEIGHT)
 	{
 		this->setPosition(this->getPosition().x, Helpers::GROUND_HEIGHT);
 
@@ -67,19 +68,44 @@ void Player::update()
 			state = idle;
 			bIsTouchingFloor = true;
 		}
+	}*/
+	if (bIsTouchingFloor)
+	{
+		this->setPosition(this->getPosition().x, Helpers::GROUND_HEIGHT);
+
+		if (state == jumping) 
+		{
+			state = idle;
+		}
 	}
 
-	if (this->getPosition().y != Helpers::GROUND_HEIGHT)
+	/*if (this->getPosition().y != Helpers::GROUND_HEIGHT)
 	{
 		state = jumping;
 		bIsTouchingFloor = false;
+	}*/
+	if (!bIsTouchingFloor)
+	{
+		state = jumping;
 	}
 
-	m_rect.setPosition(this->getPosition());
-	m_rect.setRotation(this->getRotation());
-	m_feetBox.left = this->getPosition().x - 20;
-	m_feetBox.top = this->getPosition().y - 30;
+	
+	m_feetBox.left = this->getPosition().x - 17.5f;
+	m_feetBox.top = this->getPosition().y + 18;
 
+	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
+	//m_rect.setRotation(this->getRotation());
+
+}
+
+void Player::setIsTouchingFloor(bool val)
+{
+	this->bIsTouchingFloor = val;
+}
+
+float Player::getDeltaY() const
+{
+	return fDeltaY;
 }
 
 void Player::handleDirection()
@@ -186,6 +212,7 @@ void Player::jump()
 	}
 	if (state != jumping  && state != attacking)
 	{
+		bIsTouchingFloor = false;
 		state = jumping;
 		fDeltaY = 300;
 	}
