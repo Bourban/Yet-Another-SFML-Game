@@ -16,7 +16,7 @@ Game::~Game()
 void Game::run()
 {
 
-	//These need to be loaded in the scope of run()
+	//These need to be loaded in the scope of run() (?)
 	playerTex.loadFromFile("Assets/barbarian boi.png");
 	grassTex.loadFromFile("Assets/grass.png");
 
@@ -27,11 +27,10 @@ void Game::run()
 
 	p_player = new Player(playerTex, elapsed);
 
-	p_player->setPosition(200, Helpers::GROUND_HEIGHT);
+	p_player->setPosition(200, 400);
 
 	while (window.isOpen())
 	{
-
 		sf::Event event;
 		while (window.pollEvent(event))
 			switch (event.type) {
@@ -39,11 +38,11 @@ void Game::run()
 				window.close();
 				break;
 			}
-
+		//reset the clock between frames
 		elapsed = clock.restart().asSeconds();
 
-		update();
-		
+		//Main loop functions here
+		update();	
 		render();
 
 	}
@@ -75,7 +74,6 @@ void Game::update()
 		if (p_player->m_feetBox.intersects(p.getRect()) && p_player->getDeltaY() < 0)
 		{
 			p_player->setIsTouchingFloor(true);
-
 			break;
 		}
 

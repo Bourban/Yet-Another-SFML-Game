@@ -59,31 +59,14 @@ void Player::update()
 		break;
 	}
 
-	/*if (this->getPosition().y > Helpers::GROUND_HEIGHT)
-	{
-		this->setPosition(this->getPosition().x, Helpers::GROUND_HEIGHT);
-
-		if (state == jumping) 
-		{
-			state = idle;
-			bIsTouchingFloor = true;
-		}
-	}*/
 	if (bIsTouchingFloor)
 	{
-		this->setPosition(this->getPosition().x, Helpers::GROUND_HEIGHT);
-
 		if (state == jumping) 
 		{
 			state = idle;
 		}
 	}
 
-	/*if (this->getPosition().y != Helpers::GROUND_HEIGHT)
-	{
-		state = jumping;
-		bIsTouchingFloor = false;
-	}*/
 	if (!bIsTouchingFloor)
 	{
 		state = jumping;
@@ -94,8 +77,9 @@ void Player::update()
 	m_feetBox.top = this->getPosition().y + 18;
 
 	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
-	//m_rect.setRotation(this->getRotation());
 
+	if (this->getPosition().y > 720)
+		this->setPosition(this->getPosition().x, 0);
 }
 
 void Player::setIsTouchingFloor(bool val)
