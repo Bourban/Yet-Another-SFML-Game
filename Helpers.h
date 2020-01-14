@@ -8,6 +8,10 @@ namespace Helpers
 
 	static const double MS_PER_UPDATE = 1000 / 60;
 
+	static const int SCREEN_HEIGHT = 720;
+	static const int SCREEN_WIDTH = 1280;
+
+
 	extern bool bDebugMode;
 
 	static bool isAnyKeyPressed()
