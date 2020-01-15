@@ -1,7 +1,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Screens.h"
-#include "Game.h"
 
 /* Player animations from https://thomasgvd.itch.io/barbarian */
 
@@ -12,13 +11,22 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(Helpers::SCREEN_WIDTH, Helpers::SCREEN_HEIGHT), "Platformy thing");
 	window.setFramerateLimit(60.0f);
 
-	int currentScreen = 0;
+	/*SCREEN INDEX:
+	0 -- Main Menu
+	1 -- Game Screen
+
+	*/
+
+	//change to 0 to default to menu when it's built
+	int currentScreen = 1;
+
+	MenuScreen menu;
+	screens.push_back(&menu);
 
 	Game game;
 	screens.push_back(&game);
 
-
-	while (currentScreen >= 0) 
+	while (currentScreen >= 0 && currentScreen <= screens.size()) 
 	{
 		currentScreen = screens[currentScreen]->run(window);
 	}

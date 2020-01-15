@@ -23,7 +23,6 @@ public:
 
 	float getDeltaY() const;
 
-
 	//sf::Sprite inherits from sf::Drawable -- No draw method required
 
 private:
@@ -58,8 +57,6 @@ private:
 	float fDeltaY;
 
 	sf::Vector2f m_spriteSize;
-
-	
 
 public:
 

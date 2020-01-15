@@ -3,21 +3,19 @@
 
 extern bool Helpers::bDebugMode = false;
 
-Game::Game() : timeSinceLastUpdate(0.0f)
+Game::Game() : timeSinceLastUpdate(0.0f), p_player(nullptr)
 {
 
 }
 
 Game::~Game()
 {
+	if(p_player != nullptr)
 	delete p_player;
 }
 
 int Game::run(sf::RenderWindow &window) 
 {
-
-	//These need to be loaded in the scope of run() (?)
-	
 
 	if (!loadContent()) 
 	{
