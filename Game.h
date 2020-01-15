@@ -2,17 +2,22 @@
 
 #include <SFML\Graphics.hpp>
 #include "Player.h"
+#include "Screen.h"
 #include "Helpers.h"
 #include "Platform.h"
 
-class Game
+class Game : public Screen
 {
 public:
 	Game();
 	~Game();
-	void run();
+
+	bool loadContent();
+
 	void update();
-	void render();
+	void render(sf::RenderWindow &window);
+
+	int run(sf::RenderWindow &window);
 
 	//Variables
 
@@ -21,8 +26,6 @@ private:
 	double elapsed;
 
 	float timeSinceLastUpdate;
-
-	sf::RenderWindow window;
 
 	std::vector<Platform> platforms;
 

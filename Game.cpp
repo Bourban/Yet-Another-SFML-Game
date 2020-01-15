@@ -3,9 +3,9 @@
 
 extern bool Helpers::bDebugMode = false;
 
-Game::Game() : window(sf::VideoMode(1280, 720), "SideScroller!"), timeSinceLastUpdate(0.0f)
+Game::Game() : timeSinceLastUpdate(0.0f)
 {
-	window.setFramerateLimit(60);
+
 }
 
 Game::~Game()
@@ -13,21 +13,16 @@ Game::~Game()
 	delete p_player;
 }
 
-void Game::run()
+int Game::run(sf::RenderWindow &window) 
 {
 
 	//These need to be loaded in the scope of run() (?)
-	playerTex.loadFromFile("Assets/barbarian boi.png");
-	grassTex.loadFromFile("Assets/grass.png");
+	
 
-	platforms.push_back(Platform(grassTex, 0, 600));
-	platforms.push_back(Platform(grassTex, 300, 600));
-	//platforms.push_back(Platform(grassTex, 600, 600));
-	platforms.push_back(Platform(grassTex, 900, 600));
-
-	p_player = new Player(playerTex, elapsed);
-
-	p_player->setPosition(200, 400);
+	if (!loadContent()) 
+	{
+		return -1;
+	}
 
 	while (window.isOpen())
 	{
@@ -36,6 +31,7 @@ void Game::run()
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
+				return -1;
 				break;
 			}
 		//reset the clock between frames
@@ -43,29 +39,11 @@ void Game::run()
 
 		//Main loop functions here
 		update();	
-		render();
-
+		render(window);
 	}
 }
 
-void Game::render() 
-{
-	window.clear(sf::Color::Cyan);
-	for (auto p : platforms)
-	{
-		window.draw(p);
-		if (Helpers::bDebugMode == true)
-		{
-			window.draw(p.pls);
-		}
-	}
-	window.draw(*p_player);
-	if (Helpers::bDebugMode == true)
-	{
-		window.draw((p_player->m_rect));
-	}
-	window.display();
-}
+
 
 void Game::update()
 {
@@ -84,3 +62,44 @@ void Game::update()
 
 }
 
+bool Game::loadContent() 
+{
+	if (!playerTex.loadFromFile("Assets/barbarian boi.png")) 
+	{
+		return false;
+	}
+	if (!grassTex.loadFromFile("Assets/grass.png")) 
+	{
+		return false;
+	}
+
+	platforms.push_back(Platform(grassTex, 0, 600));
+	platforms.push_back(Platform(grassTex, 300, 600));
+	platforms.push_back(Platform(grassTex, 900, 600));
+
+	p_player = new Player(playerTex, elapsed);
+
+	p_player->setPosition(200, 400);
+
+
+	return true;
+}
+
+void Game::render(sf::RenderWindow &window)
+{
+	window.clear(sf::Color::Cyan);
+	for (auto p : platforms)
+	{
+		window.draw(p);
+		if (Helpers::bDebugMode == true)
+		{
+			window.draw(p.pls);
+		}
+	}
+	window.draw(*p_player);
+	if (Helpers::bDebugMode == true)
+	{
+		window.draw((p_player->m_rect));
+	}
+	window.display();
+}
