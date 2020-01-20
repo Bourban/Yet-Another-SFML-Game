@@ -11,10 +11,13 @@ public:
 	Platform(sf::Texture &tex, int x, int y);
 	~Platform();
 
-	sf::IntRect& getRect();
+	sf::IntRect getRect() const;
+	sf::IntRect getTop() const;
 	sf::RectangleShape pls;
 
 private:
+
+	sf::IntRect top;
 	sf::IntRect rect;
 
 };

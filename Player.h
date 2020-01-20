@@ -52,14 +52,19 @@ private:
 	bool bIsFacingLeft;
 	bool bIsPressingKey;
 
-	//Passing this for the animations -- update() frequency is controlled by Game::update()
+	//Passing this for the animations -- update() frequency should be controlled by Game::update()
 	double &elapsed;
 	float fDeltaY;
 
 	sf::Vector2f m_spriteSize;
 
+	//Player stats
+	float speed;
+	float jumpHeight;
+
 public:
 
+	//TODO: Make some getters
 	sf::Rect<int> m_feetBox;
 	sf::RectangleShape m_rect;
 

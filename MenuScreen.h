@@ -1,5 +1,7 @@
 #pragma once
 #include "Screen.h"
+#include <SFML/Graphics/Font.hpp>
+
 class MenuScreen :
 	public Screen
 {
@@ -13,6 +15,16 @@ public:
 
 	void update();
 	void render(sf::RenderWindow &window);
+
+private:
+
+	//Class Members
+
+public:
+
+private:
+
+	sf::Font font;
 
 };
 

@@ -7,17 +7,13 @@ Platform::Platform(sf::Texture & tex)
 	this->setTexture(tex);
 }
 
-Platform::Platform(sf::Texture & tex, int x, int y) : sf::Sprite(tex)
+Platform::Platform(sf::Texture & tex, int x, int y) : sf::Sprite(tex), rect(x, y, tex.getSize().x, tex.getSize().y), 
+																				top(x, y, tex.getSize().x, tex.getSize().y * 0.25f)
 {
 	this->setPosition(x, y);
 
-	rect.height = tex.getSize().y;
-	rect.width = tex.getSize().x;
-	rect.left = x;
-	rect.top = y;
-
 	pls.setPosition(rect.left, rect.top);
-	pls.setSize(sf::Vector2f(rect.width, rect.height));
+	pls.setSize(sf::Vector2f(rect.width, rect.height * 0.25f));
 
 	pls.setFillColor(sf::Color::Transparent);
 	pls.setOutlineThickness(1.0f);
@@ -28,7 +24,12 @@ Platform::~Platform()
 {
 }
 
-sf::IntRect & Platform::getRect()
+sf::IntRect Platform::getRect() const
 {
 	return rect;
+}
+
+sf::IntRect Platform::getTop() const
+{
+	return top;
 }

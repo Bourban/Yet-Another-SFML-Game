@@ -47,7 +47,7 @@ void Game::update()
 {
 	for each (Platform p in platforms)
 	{
-		if (p_player->m_feetBox.intersects(p.getRect()) && p_player->getDeltaY() < 0)
+		if (p_player->m_feetBox.intersects(p.getTop()) && p_player->getDeltaY() < 0)
 		{
 			p_player->setIsTouchingFloor(true);
 			break;
