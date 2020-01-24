@@ -2,9 +2,10 @@
 
 //There's lots of hard-coded values in this file which I intend to address after I've added a bit more functionality
 
-Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),
-									runAnim(*this), jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false),
-										state(idle), m_feetBox(0, 0, 35, 10), bIsPressingKey(false)
+Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),runAnim(*this), 
+														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
+															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), speed(200.0f),
+																jumpHeight(300.0f), maxFallSpeed(450.0f)
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -42,10 +43,10 @@ void Player::update()
 	case jumping:
 		this->move(0, -(fDeltaY * elapsed));
 
-		if (fDeltaY > -450)
-			fDeltaY -= 450 * elapsed;
+		if (fDeltaY > -maxFallSpeed)
+			fDeltaY -= maxFallSpeed * elapsed;
 		else
-			fDeltaY = -450;
+			fDeltaY = -maxFallSpeed;
 
 		jumpAnim.update(elapsed);
 		break;
@@ -64,6 +65,7 @@ void Player::update()
 		if (state == jumping) 
 		{
 			state = idle;
+			fDeltaY = -50;
 		}
 	}
 
@@ -78,7 +80,7 @@ void Player::update()
 
 	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
 
-	if (this->getPosition().y > 720)
+	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
 		this->setPosition(this->getPosition().x, 0);
 }
 
@@ -149,7 +151,7 @@ void Player::moveLeft()
 {
 	if (state != crouching && state != attacking)
 	{
-		this->move(-200 * elapsed, 0);
+		this->move(-speed * elapsed, 0);
 		bIsFacingLeft = true;
 
 		if (state != jumping)
@@ -163,7 +165,7 @@ void Player::moveRight()
 {
 	if (state != crouching && state != attacking)
 	{
-		this->move(200 * elapsed, 0);
+		this->move(speed * elapsed, 0);
 		bIsFacingLeft = false;
 
 		if (state != jumping)
@@ -198,7 +200,7 @@ void Player::jump()
 	{
 		bIsTouchingFloor = false;
 		state = jumping;
-		fDeltaY = 300;
+		fDeltaY = jumpHeight;
 	}
 }
 

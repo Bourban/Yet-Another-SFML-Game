@@ -18,7 +18,7 @@ int main() {
 	*/
 
 	//change to 0 to default to menu when it's built
-	int currentScreen = 1;
+	int currentScreen = 0;
 
 	MenuScreen menu;
 	screens.push_back(&menu);
@@ -31,6 +31,6 @@ int main() {
 		currentScreen = screens[currentScreen]->run(window);
 	}
 
-	return 0;
+	return currentScreen;
 	
 }

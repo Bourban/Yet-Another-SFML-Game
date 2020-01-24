@@ -19,7 +19,7 @@ int Game::run(sf::RenderWindow &window)
 
 	if (!loadContent()) 
 	{
-		return -1;
+		return -5;
 	}
 
 	while (window.isOpen())
@@ -30,8 +30,18 @@ int Game::run(sf::RenderWindow &window)
 			case sf::Event::Closed:
 				window.close();
 				return -1;
+				
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::BackSpace)
+				{
+					return 0;
+				}
+
+			default:
 				break;
 			}
+			
+
 		//reset the clock between frames
 		elapsed = clock.restart().asSeconds();
 

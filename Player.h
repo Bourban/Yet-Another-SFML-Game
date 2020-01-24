@@ -3,6 +3,7 @@
 #include <SFML\Graphics\Sprite.hpp>
 #include <SFML\Window\Keyboard.hpp>
 #include <SFML\Graphics\RectangleShape.hpp>
+
 #include "Animation.h"
 #include "Helpers.h"
 
@@ -20,7 +21,6 @@ public:
 	void update();
 
 	void setIsTouchingFloor(bool val);
-
 	float getDeltaY() const;
 
 	//sf::Sprite inherits from sf::Drawable -- No draw method required
@@ -61,6 +61,7 @@ private:
 	//Player stats
 	float speed;
 	float jumpHeight;
+	float maxFallSpeed;
 
 public:
 

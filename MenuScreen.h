@@ -1,6 +1,9 @@
 #pragma once
 #include "Screen.h"
+#include "Helpers.h"
+
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 class MenuScreen :
 	public Screen
@@ -25,6 +28,6 @@ public:
 private:
 
 	sf::Font font;
-
+	sf::Text advanceText;
 };
 
