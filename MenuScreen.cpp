@@ -18,25 +18,23 @@ int MenuScreen::run(sf::RenderWindow & window)
 		return -5;
 	}
 
-	
+
 
 	while (window.isOpen())
 	{
-		
+
 		sf::Event event;
 		while (window.pollEvent(event))
-			switch (event.type) {
+			switch (event.type)
+			{
 			case sf::Event::Closed:
 				window.close();
 				return -1;
-				
 			case sf::Event::KeyReleased:
-				if (event.key.code == sf::Keyboard::Return) 
+				if (event.key.code == sf::Keyboard::Return)
 				{
 					return 1;
-
 				}
-
 				break;
 			}
 
@@ -55,7 +53,7 @@ bool MenuScreen::loadContent()
 	advanceText.setFont(font);
 	advanceText.setCharacterSize(32);
 	advanceText.setColor(sf::Color::Black);
-	//TODO: offset width and height of text
+
 	advanceText.setOrigin(advanceText.getLocalBounds().width / 2, advanceText.getLocalBounds().height / 2);
 	advanceText.setPosition(Helpers::SCREEN_WIDTH / 2, Helpers::SCREEN_HEIGHT / 2);
 
