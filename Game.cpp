@@ -104,7 +104,9 @@ void Game::render(sf::RenderWindow &window)
 			window.draw(p.pls);
 		}
 	}
-	window.draw(*p_player);
+	
+	p_player->draw(window);
+	
 	if (Helpers::bDebugMode == true)
 	{
 		window.draw((p_player->m_rect));

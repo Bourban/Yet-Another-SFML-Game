@@ -6,6 +6,7 @@
 
 #include "Animation.h"
 #include "Helpers.h"
+#include "HealthBar.h"
 
 //State machine to handle animations and control when certain actions can be taken
 enum State {idle, moving, jumping, attacking, crouching};
@@ -19,11 +20,16 @@ public:
 	~Player();
 
 	void update();
+	//Draw method to draw subcomponents without having to do things like "p_player->getHealthBar()->draw(window);" in every screen
+	void draw(sf::RenderWindow & window);
 
 	void setIsTouchingFloor(bool val);
-	float getDeltaY() const;
 
-	//sf::Sprite inherits from sf::Drawable -- No draw method required
+	float getDeltaY() const;
+	float getHealth() const;
+	float getMaxHealth() const;
+
+	HealthBar* getHealthBar();
 
 private:
 	virtual void initializeAnims();
@@ -36,6 +42,8 @@ private:
 	void attack();
 	void crouch();
 	void jump();
+
+	void modifyHealth(float change);
 
 //variables
 
@@ -58,10 +66,15 @@ private:
 
 	sf::Vector2f m_spriteSize;
 
+	HealthBar m_healthBar;
+
 	//Player stats
-	float speed;
+	float m_speed;
 	float jumpHeight;
 	float maxFallSpeed;
+
+	float m_health;
+	float m_maxHealth;
 
 public:
 

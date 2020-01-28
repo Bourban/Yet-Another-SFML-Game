@@ -4,8 +4,9 @@
 
 Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),runAnim(*this), 
 														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
-															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), speed(200.0f),
-																jumpHeight(300.0f), maxFallSpeed(450.0f)
+															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), m_speed(200.0f),
+																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
+																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this)
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -82,7 +83,18 @@ void Player::update()
 
 	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
 		this->setPosition(this->getPosition().x, 0);
+
+	m_healthBar.update();
 }
+
+void Player::draw(sf::RenderWindow & window)
+{
+	window.draw(*this);
+	m_healthBar.draw(window);
+}
+
+#pragma region Getters + Setters
+
 
 void Player::setIsTouchingFloor(bool val)
 {
@@ -93,6 +105,24 @@ float Player::getDeltaY() const
 {
 	return fDeltaY;
 }
+
+float Player::getHealth() const
+{
+	return m_health;
+}
+
+float Player::getMaxHealth() const
+{
+	return m_maxHealth;
+}
+
+HealthBar* Player::getHealthBar()
+{
+	return &m_healthBar;
+}
+
+#pragma endregion
+
 
 void Player::handleDirection()
 {
@@ -151,7 +181,7 @@ void Player::moveLeft()
 {
 	if (state != crouching && state != attacking)
 	{
-		this->move(-speed * elapsed, 0);
+		this->move(-m_speed * elapsed, 0);
 		bIsFacingLeft = true;
 
 		if (state != jumping)
@@ -165,7 +195,7 @@ void Player::moveRight()
 {
 	if (state != crouching && state != attacking)
 	{
-		this->move(speed * elapsed, 0);
+		this->move(m_speed * elapsed, 0);
 		bIsFacingLeft = false;
 
 		if (state != jumping)
@@ -202,6 +232,11 @@ void Player::jump()
 		state = jumping;
 		fDeltaY = jumpHeight;
 	}
+}
+
+void Player::modifyHealth(float change)
+{
+	m_health += change;
 }
 
 #pragma endregion
