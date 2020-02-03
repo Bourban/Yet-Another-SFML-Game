@@ -9,7 +9,8 @@
 #include "HealthBar.h"
 
 //State machine to handle animations and control when certain actions can be taken
-enum State {idle, moving, jumping, attacking, crouching};
+//Should probably name states like STATE_IDLE etc.
+enum State {idle, moving, jumping, attacking, crouching, dying, dead};
 
 class Player : public sf::Sprite
 {
@@ -29,7 +30,7 @@ public:
 	float getHealth() const;
 	float getMaxHealth() const;
 
-	HealthBar* getHealthBar();
+	void modifyHealth(float change);
 
 private:
 	virtual void initializeAnims();
@@ -42,8 +43,6 @@ private:
 	void attack();
 	void crouch();
 	void jump();
-
-	void modifyHealth(float change);
 
 //variables
 
@@ -59,6 +58,9 @@ private:
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft;
 	bool bIsPressingKey;
+
+	//Handled by state instead ?
+	//bool bIsAlive;
 
 	//Passing this for the animations -- update() frequency should be controlled by Game::update()
 	double &elapsed;

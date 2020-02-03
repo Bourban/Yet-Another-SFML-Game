@@ -7,7 +7,7 @@ class Player;
 class HealthBar
 {
 public:
-	HealthBar();
+	//HealthBar();
 	HealthBar(sf::Vector2f pos, float w, Player* owner);
 	~HealthBar();
 

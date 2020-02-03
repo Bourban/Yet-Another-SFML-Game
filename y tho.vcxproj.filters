@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Screens">
       <UniqueIdentifier>{37771c23-5496-4369-bc24-0cbcc6b2ce68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Player Components">
+      <UniqueIdentifier>{aaac7edf-cb13-4a28-b34c-9b5c16b40440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player Components">
+      <UniqueIdentifier>{d929bc18-ae65-4438-8790-6bc2045def73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -40,6 +46,9 @@
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files\Player Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Pickup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,6 +78,9 @@
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
+      <Filter>Header Files\Player Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

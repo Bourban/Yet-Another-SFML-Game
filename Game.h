@@ -6,6 +6,7 @@
 #include "Screen.h"
 #include "Helpers.h"
 #include "Platform.h"
+#include "Pickup.h"
 
 class Game : public Screen
 {
@@ -20,6 +21,8 @@ public:
 
 	int run(sf::RenderWindow &window);
 
+	void cleanup();
+
 	//Variables
 
 private:
@@ -28,10 +31,12 @@ private:
 
 	float timeSinceLastUpdate;
 
-	std::vector<Platform> platforms;
+	std::vector<Platform*> platforms;
+	std::vector<Pickup*> pickups;
 
 	sf::Texture playerTex;
 	sf::Texture grassTex;
+	sf::Texture cheeseTex;
 
 	Player* p_player;
 

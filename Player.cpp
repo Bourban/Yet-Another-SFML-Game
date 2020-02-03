@@ -7,6 +7,7 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), m_speed(200.0f),
 																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
 																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this)
+																		
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -35,6 +36,12 @@ void Player::update()
 
 	switch (state)
 	{
+	case dying:
+		//update anim until specific frame or time passed, then change to dead
+		break;
+	case dead:
+		//deliberately empty; dead people can't act!
+		break;
 	case idle:
 		idleAnim.update(elapsed);
 		break;
@@ -70,12 +77,11 @@ void Player::update()
 		}
 	}
 
-	if (!bIsTouchingFloor)
+	if (!bIsTouchingFloor && state != dead)
 	{
 		state = jumping;
 	}
 
-	
 	m_feetBox.left = this->getPosition().x - 17.5f;
 	m_feetBox.top = this->getPosition().y + 18;
 
@@ -116,11 +122,6 @@ float Player::getMaxHealth() const
 	return m_maxHealth;
 }
 
-HealthBar* Player::getHealthBar()
-{
-	return &m_healthBar;
-}
-
 #pragma endregion
 
 
@@ -154,6 +155,12 @@ void Player::handleInput()
 	{
 		attack();
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) 
+	{
+		this->modifyHealth(1.0f);
+	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !bIsPressingKey)
 	{
 		jump();
@@ -237,6 +244,14 @@ void Player::jump()
 void Player::modifyHealth(float change)
 {
 	m_health += change;
+	if (m_health > m_maxHealth) 
+	{
+		m_health = m_maxHealth;
+	}
+	else if (m_health <= 0.0f) 
+	{
+		state = dying;
+	}
 }
 
 #pragma endregion
