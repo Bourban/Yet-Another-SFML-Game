@@ -30,6 +30,8 @@ public:
 	float getHealth() const;
 	float getMaxHealth() const;
 
+	sf::Rect<int> getBody() const;
+
 	void modifyHealth(float change);
 
 private:
@@ -74,6 +76,8 @@ private:
 	float m_speed;
 	float jumpHeight;
 	float maxFallSpeed;
+
+	sf::Rect<int> m_body;
 
 	float m_health;
 	float m_maxHealth;

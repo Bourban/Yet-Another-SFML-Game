@@ -6,8 +6,8 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
 															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), m_speed(200.0f),
 																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
-																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this)
-																		
+																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this),
+																		m_body(0, 0, 35, 60)								
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -18,7 +18,7 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 	this->setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
 	//m_rect.setOrigin(20, 34);
-	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
+	m_rect.setSize(sf::Vector2f(m_body.width, m_body.height));
 	m_rect.setOutlineColor(sf::Color::Black);
 	m_rect.setOutlineThickness(1.0f);
 	m_rect.setFillColor(sf::Color::Transparent);
@@ -85,7 +85,10 @@ void Player::update()
 	m_feetBox.left = this->getPosition().x - 17.5f;
 	m_feetBox.top = this->getPosition().y + 18;
 
-	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
+	m_body.left = this->getPosition().x - 15;
+	m_body.top = this->getPosition().y - 35;
+
+	m_rect.setPosition(sf::Vector2f(m_body.left, m_body.top));
 
 	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
 		this->setPosition(this->getPosition().x, 0);
@@ -120,6 +123,11 @@ float Player::getHealth() const
 float Player::getMaxHealth() const
 {
 	return m_maxHealth;
+}
+
+sf::Rect<int> Player::getBody() const
+{
+	return m_body;
 }
 
 #pragma endregion

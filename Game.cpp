@@ -10,8 +10,7 @@ Game::Game() : timeSinceLastUpdate(0.0f), p_player(nullptr)
 
 Game::~Game()
 {
-	if(p_player != nullptr)
-	delete p_player;
+
 }
 
 int Game::run(sf::RenderWindow &window) 
@@ -41,7 +40,6 @@ int Game::run(sf::RenderWindow &window)
 				break;
 			}
 			
-
 		//reset the clock between frames
 		elapsed = clock.restart().asSeconds();
 
@@ -64,19 +62,24 @@ void Game::cleanup()
 	{
 		delete p;
 	}
-
 	pickups.clear();
 
+	for (auto p : platforms) 
+	{
+		delete p;
+	}
+	platforms.clear();
 }
+
 
 
 
 void Game::update()
 {
-	std::vector<Platform*>::iterator itt = platforms.begin();
-	while(platforms.size()  && itt != platforms.end())
+	std::vector<Platform*>::iterator iter_plat = platforms.begin();
+	while(platforms.size()  && iter_plat != platforms.end())
 	{
-		Platform* p = *itt;
+		Platform* p = *iter_plat;
 
 		if (p_player->m_feetBox.intersects(p->getTop()) && p_player->getDeltaY() < 0)
 		{
@@ -85,9 +88,8 @@ void Game::update()
 		}
 		else
 		{
-			itt++;
+			iter_plat++;
 		}
-
 
 		p_player->setIsTouchingFloor(false);
 	}
@@ -97,7 +99,7 @@ void Game::update()
 	{
 		Pickup* p = *it;
 
-		if (p_player->m_feetBox.intersects(p->getRect()))
+		if (p_player->getBody().intersects(p->getRect()))
 		{
 			p->onPickup(p_player);
 			it = pickups.erase(it);
@@ -107,15 +109,6 @@ void Game::update()
 			++it; 
 		}
 	}
-
-	/*for (auto &p : pickups)
-	{
-		if (p_player->m_feetBox.intersects(p->getRect()))
-		{
-			p->onPickup(p_player);
-			delete p;
-		}
-	}*/
 
 	if (elapsed > Helpers::MS_PER_UPDATE) 
 	{
@@ -141,8 +134,9 @@ bool Game::loadContent()
 		return false;
 	}
 
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 580), cheeseTex, health, 20.0f)));
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 580), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));
 
 	platforms.push_back(std::move(new Platform(grassTex, 0, 600)));
 	platforms.push_back(std::move(new Platform(grassTex, 300, 600)));
