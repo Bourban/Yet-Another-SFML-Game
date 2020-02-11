@@ -158,6 +158,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Platform.h" />

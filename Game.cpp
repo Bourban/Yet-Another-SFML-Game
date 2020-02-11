@@ -15,7 +15,6 @@ Game::~Game()
 
 int Game::run(sf::RenderWindow &window) 
 {
-
 	if (!loadContent()) 
 	{
 		return -5;

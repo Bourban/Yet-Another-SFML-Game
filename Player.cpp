@@ -4,7 +4,7 @@
 
 Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),runAnim(*this), 
 														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
-															m_feetBox(0, 0, 35, 10), bIsPressingKey(false), m_speed(200.0f),
+															m_feetBox(0, 0, 35, 10), m_speed(200.0f), m_inputHandler(this),
 																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
 																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this),
 																		m_body(0, 0, 35, 60)								
@@ -31,7 +31,7 @@ Player::~Player()
 
 void Player::update()
 {
-	handleInput();
+	m_inputHandler.handleInput();
 	handleDirection();
 
 	switch (state)
@@ -130,6 +130,16 @@ sf::Rect<int> Player::getBody() const
 	return m_body;
 }
 
+State Player::getState() const
+{
+	return state;
+}
+
+void Player::setState(State s)
+{
+	state = s;
+}
+
 #pragma endregion
 
 
@@ -145,52 +155,6 @@ void Player::handleDirection()
 
 #pragma region Input + Actions
 
-void Player::handleInput()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		crouch();
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		moveLeft();
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		moveRight();
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-	{
-		attack();
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) 
-	{
-		this->modifyHealth(1.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !bIsPressingKey)
-	{
-		jump();
-		bIsPressingKey = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && !bIsPressingKey) 
-	{
-		Helpers::bDebugMode = !Helpers::bDebugMode;
-		bIsPressingKey = true;
-	}
-
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-	{
-		bIsPressingKey = false;
-	}
-
-	if (!Helpers::isAnyRelevantKeyPressed() && state != jumping) 
-	{
-		state = idle;
-	}
-}
 
 void Player::moveLeft()
 {

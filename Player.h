@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Helpers.h"
 #include "HealthBar.h"
+#include "InputHandler.h"
 
 //State machine to handle animations and control when certain actions can be taken
 //Should probably name states like STATE_IDLE etc.
@@ -14,7 +15,6 @@ enum State {idle, moving, jumping, attacking, crouching, dying, dead};
 
 class Player : public sf::Sprite
 {
-
 //Methods
 public:
 	Player(sf::Texture &tex, double &elapsed);
@@ -31,20 +31,23 @@ public:
 	float getMaxHealth() const;
 
 	sf::Rect<int> getBody() const;
+	State getState() const;
+	void setState(State s);
+
 
 	void modifyHealth(float change);
-
-private:
-	virtual void initializeAnims();
-
-	void handleDirection();
-	void handleInput();
 
 	void moveLeft();
 	void moveRight();
 	void attack();
 	void crouch();
 	void jump();
+
+private:
+
+	virtual void initializeAnims();
+
+	void handleDirection();
 
 //variables
 
@@ -59,7 +62,6 @@ private:
 
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft;
-	bool bIsPressingKey;
 
 	//Handled by state instead ?
 	//bool bIsAlive;
@@ -71,6 +73,7 @@ private:
 	sf::Vector2f m_spriteSize;
 
 	HealthBar m_healthBar;
+	InputHandler m_inputHandler;
 
 	//Player stats
 	float m_speed;
