@@ -5,7 +5,7 @@
 
 class Player;
 
-enum Type {gold, health};
+enum Type {gold, health, objective};
 
 class Pickup : public sf::Sprite
 {

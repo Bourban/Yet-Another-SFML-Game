@@ -31,6 +31,8 @@ void Pickup::onPickup(Player* other)
 	case health:
 		other->modifyHealth(m_value);
 		break;
+	case objective:
+		break;
 	default:
 		break;
 	}
