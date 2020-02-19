@@ -41,5 +41,6 @@ private:
 
 	Player* p_player;
 
+	bool* isObjComplete;
 };
 
