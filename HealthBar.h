@@ -2,13 +2,13 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Player;
+class PlayerController;
 
 class HealthBar
 {
 public:
 	//HealthBar();
-	HealthBar(sf::Vector2f pos, float w, Player* owner);
+	HealthBar(sf::Vector2f pos, float w, PlayerController* owner);
 	~HealthBar();
 
 	void update();
@@ -21,7 +21,7 @@ private:
 
 	sf::Vector2f m_pos;
 
-	Player* m_owner;
+	PlayerController* m_owner;
 
 	float width;
 };

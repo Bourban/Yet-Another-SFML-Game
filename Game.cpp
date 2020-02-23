@@ -100,7 +100,7 @@ void Game::update()
 
 		if (p_player->getBody().intersects(p->getRect()))
 		{
-			p->onPickup(p_player);
+			p->onPickup(p_player->getController());
 			it = pickups.erase(it);
 		}
 		else
@@ -124,7 +124,7 @@ bool Game::loadContent()
 	{
 		return false;
 	}
-	if (!grassTex.loadFromFile("Assets/grass.png")) 
+	if (!grassTex.loadFromFile("Assets/NewGrass.png")) 
 	{
 		return false;
 	}
@@ -137,9 +137,9 @@ bool Game::loadContent()
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex, health, 20.0f)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));
 
-	platforms.push_back(std::move(new Platform(grassTex, 0, 600)));
-	platforms.push_back(std::move(new Platform(grassTex, 300, 600)));
-	platforms.push_back(std::move(new Platform(grassTex, 900, 600)));
+	platforms.push_back(std::move(new Platform(grassTex, 0, 600, sf::Vector2f(0.1, 0.1))));
+	platforms.push_back(std::move(new Platform(grassTex, 260, 600, sf::Vector2f(0.15, 0.1))));
+	platforms.push_back(std::move(new Platform(grassTex, 900, 600, sf::Vector2f(0.15, 0.1))));
 
 	p_player = new Player(playerTex, elapsed);
 

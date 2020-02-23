@@ -33,11 +33,6 @@ void InputHandler::handleInput()
 		m_owner->attack();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-	{
-		m_owner->modifyHealth(1.0f);
-	}
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !bIsPressingKey)
 	{
 		m_owner->jump();

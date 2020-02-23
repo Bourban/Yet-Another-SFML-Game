@@ -5,9 +5,7 @@
 Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),runAnim(*this), 
 														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
 															m_feetBox(0, 0, 35, 10), m_speed(200.0f), m_inputHandler(this),
-																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
-																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this),
-																		m_body(0, 0, 35, 60)								
+																jumpHeight(300.0f), maxFallSpeed(450.0f), m_body(0, 0, 35, 60), m_controller(this)
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -33,6 +31,8 @@ void Player::update()
 {
 	m_inputHandler.handleInput();
 	handleDirection();
+
+	m_controller.update();
 
 	switch (state)
 	{
@@ -92,14 +92,12 @@ void Player::update()
 
 	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
 		this->setPosition(this->getPosition().x, 0);
-
-	m_healthBar.update();
 }
 
 void Player::draw(sf::RenderWindow & window)
 {
 	window.draw(*this);
-	m_healthBar.draw(window);
+	m_controller.draw(window);
 }
 
 #pragma region Getters + Setters
@@ -115,14 +113,9 @@ float Player::getDeltaY() const
 	return fDeltaY;
 }
 
-float Player::getHealth() const
+PlayerController* Player::getController()
 {
-	return m_health;
-}
-
-float Player::getMaxHealth() const
-{
-	return m_maxHealth;
+	return &m_controller;
 }
 
 sf::Rect<int> Player::getBody() const
@@ -210,19 +203,6 @@ void Player::jump()
 		bIsTouchingFloor = false;
 		state = jumping;
 		fDeltaY = jumpHeight;
-	}
-}
-
-void Player::modifyHealth(float change)
-{
-	m_health += change;
-	if (m_health > m_maxHealth) 
-	{
-		m_health = m_maxHealth;
-	}
-	else if (m_health <= 0.0f) 
-	{
-		state = dying;
 	}
 }
 

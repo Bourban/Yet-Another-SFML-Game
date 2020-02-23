@@ -163,6 +163,7 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Screens.h" />
   </ItemGroup>

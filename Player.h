@@ -6,7 +6,7 @@
 
 #include "Animation.h"
 #include "Helpers.h"
-#include "HealthBar.h"
+#include "PlayerController.h"
 #include "InputHandler.h"
 
 //State machine to handle animations and control when certain actions can be taken
@@ -27,15 +27,12 @@ public:
 	void setIsTouchingFloor(bool val);
 
 	float getDeltaY() const;
-	float getHealth() const;
-	float getMaxHealth() const;
+
+	PlayerController* getController();
 
 	sf::Rect<int> getBody() const;
 	State getState() const;
 	void setState(State s);
-
-
-	void modifyHealth(float change);
 
 	void moveLeft();
 	void moveRight();
@@ -46,7 +43,6 @@ public:
 private:
 
 	virtual void initializeAnims();
-
 	void handleDirection();
 
 //variables
@@ -63,16 +59,12 @@ private:
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft;
 
-	//Handled by state instead ?
-	//bool bIsAlive;
-
 	//Passing this for the animations -- update() frequency should be controlled by Game::update()
 	double &elapsed;
 	float fDeltaY;
 
 	sf::Vector2f m_spriteSize;
 
-	HealthBar m_healthBar;
 	InputHandler m_inputHandler;
 
 	//Player stats
@@ -80,10 +72,9 @@ private:
 	float jumpHeight;
 	float maxFallSpeed;
 
-	sf::Rect<int> m_body;
+	PlayerController m_controller;
 
-	float m_health;
-	float m_maxHealth;
+	sf::Rect<int> m_body;
 
 public:
 

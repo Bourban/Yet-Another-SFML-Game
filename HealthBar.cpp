@@ -1,7 +1,7 @@
 #include "HealthBar.h"
-#include "Player.h"
+#include "PlayerController.h"
 
-HealthBar::HealthBar(sf::Vector2f pos, float w, Player* owner) : m_pos(pos), m_owner(owner), bg(sf::Vector2f(w + 4, 20)), bar(sf::Vector2f(w, 20))
+HealthBar::HealthBar(sf::Vector2f pos, float w, PlayerController* owner) : m_pos(pos), m_owner(owner), bg(sf::Vector2f(w + 4, 20)), bar(sf::Vector2f(w, 20))
 {
 	bg.setPosition(pos.x - 2, pos.y);
 	bar.setPosition(pos);

@@ -9,6 +9,7 @@ class Platform : public sf::Sprite
 public:
 	Platform(sf::Texture &tex);
 	Platform(sf::Texture &tex, int x, int y);
+	Platform(sf::Texture & tex, int x, int y, sf::Vector2f scale);
 	~Platform();
 
 	sf::IntRect getRect() const;

@@ -1,6 +1,6 @@
 #include "Pickup.h"
 
-#include "Player.h"
+#include "PlayerController.h"
 #include<SFML/Graphics/Texture.hpp>
 
 #include <iostream>
@@ -22,7 +22,7 @@ sf::Rect<int> Pickup::getRect()
 	return m_rect;
 }
 
-void Pickup::onPickup(Player* other)
+void Pickup::onPickup(PlayerController* other)
 {
 	switch (m_type)
 	{

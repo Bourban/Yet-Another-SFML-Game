@@ -3,7 +3,7 @@
 #include<SFML/Graphics/Rect.hpp>
 #include<SFML/Graphics/Sprite.hpp>
 
-class Player;
+class PlayerController;
 
 enum Type {gold, health, objective};
 
@@ -15,7 +15,7 @@ public:
 
 	sf::Rect<int> getRect();
 
-	void onPickup(Player* other);
+	void onPickup(PlayerController* other);
 
 private:
 	sf::Rect<int> m_rect;
