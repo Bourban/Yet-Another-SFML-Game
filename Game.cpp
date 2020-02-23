@@ -3,7 +3,7 @@
 
 extern bool Helpers::bDebugMode = false;
 
-Game::Game() : timeSinceLastUpdate(0.0f), p_player(nullptr), isObjComplete(nullptr)
+Game::Game() : timeSinceLastUpdate(0.0f), p_player(nullptr)
 {
 
 }
@@ -42,16 +42,9 @@ int Game::run(sf::RenderWindow &window)
 		//reset the clock between frames
 		elapsed = clock.restart().asSeconds();
 
-		//If objective is complete, move to the next screen, this handled by the player class.
-		if (!*(isObjComplete)) {
-			//Main loop functions here
-			update();
-			render(window);
-		}
-		else
-		{
-			return 0;
-		}
+		//Main loop functions here
+		update();	
+		render(window);
 	}
 
 	cleanup();
@@ -123,7 +116,6 @@ void Game::update()
 
 	p_player->update();
 
-
 }
 
 bool Game::loadContent() 
@@ -144,7 +136,6 @@ bool Game::loadContent()
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex, health, 20.0f)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(1000, 570), cheeseTex, objective)));
 
 	platforms.push_back(std::move(new Platform(grassTex, 0, 600)));
 	platforms.push_back(std::move(new Platform(grassTex, 300, 600)));
@@ -154,7 +145,6 @@ bool Game::loadContent()
 
 	p_player->setPosition(200, 400);
 
-	isObjComplete = p_player->getIsObjectiveComplete();
 
 	return true;
 }

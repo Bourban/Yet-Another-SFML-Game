@@ -1,6 +1,6 @@
 #include "Pickup.h"
-#include "Player.h"
 
+#include "Player.h"
 #include<SFML/Graphics/Texture.hpp>
 
 #include <iostream>
@@ -12,14 +12,9 @@ Pickup::Pickup(sf::Vector2f pos, sf::Texture & tex, Type type, float value) : m_
 	this->setPosition(pos);
 }
 
-Pickup::Pickup(sf::Vector2f pos, sf::Texture & tex, Type type) : m_rect((sf::Vector2i)pos, (sf::Vector2i)tex.getSize()), m_type(type)
-{
-	this->setTexture(tex);
-	this->setPosition(pos);
-}
-
 Pickup::~Pickup()
 {
+	std::cout << ":(\n";
 }
 
 sf::Rect<int> Pickup::getRect()
@@ -32,13 +27,12 @@ void Pickup::onPickup(Player* other)
 	switch (m_type)
 	{
 	case gold:
-		other->modifyGold(m_value);
 		break;
 	case health:
 		other->modifyHealth(m_value);
 		break;
 	case objective:
-		other->setIsObjectiveComplete(true);
+
 		break;
 	default:
 		break;

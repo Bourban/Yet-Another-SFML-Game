@@ -26,9 +26,6 @@ public:
 
 	void setIsTouchingFloor(bool val);
 
-	void setIsObjectiveComplete(bool val);
-	bool* getIsObjectiveComplete();
-
 	float getDeltaY() const;
 	float getHealth() const;
 	float getMaxHealth() const;
@@ -39,8 +36,6 @@ public:
 
 
 	void modifyHealth(float change);
-	void modifyGold(float change);
-
 
 	void moveLeft();
 	void moveRight();
@@ -86,10 +81,6 @@ private:
 	float maxFallSpeed;
 
 	sf::Rect<int> m_body;
-
-	int m_gold;
-
-	bool m_isObjComplete;
 
 	float m_health;
 	float m_maxHealth;

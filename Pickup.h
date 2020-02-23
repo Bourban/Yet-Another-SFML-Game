@@ -11,7 +11,6 @@ class Pickup : public sf::Sprite
 {
 public:
 	Pickup(sf::Vector2f pos, sf::Texture &tex, Type type, float amount);
-	Pickup(sf::Vector2f pos, sf::Texture &tex, Type type);
 	virtual ~Pickup();
 
 	sf::Rect<int> getRect();

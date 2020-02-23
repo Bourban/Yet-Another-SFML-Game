@@ -7,7 +7,7 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 															m_feetBox(0, 0, 35, 10), m_speed(200.0f), m_inputHandler(this),
 																jumpHeight(300.0f), maxFallSpeed(450.0f), m_maxHealth(100.0f), 
 																	m_health(50.0f), m_healthBar(sf::Vector2f(20, 20), 200, this),
-																		m_body(0, 0, 35, 60), m_isObjComplete(false)
+																		m_body(0, 0, 35, 60)								
 {
 	this->setTexture(tex);
 	initializeAnims();
@@ -33,9 +33,6 @@ void Player::update()
 {
 	m_inputHandler.handleInput();
 	handleDirection();
-
-#pragma region State
-
 
 	switch (state)
 	{
@@ -85,8 +82,6 @@ void Player::update()
 		state = jumping;
 	}
 
-#pragma endregion
-
 	m_feetBox.left = this->getPosition().x - 17.5f;
 	m_feetBox.top = this->getPosition().y + 18;
 
@@ -113,16 +108,6 @@ void Player::draw(sf::RenderWindow & window)
 void Player::setIsTouchingFloor(bool val)
 {
 	this->bIsTouchingFloor = val;
-}
-
-void Player::setIsObjectiveComplete(bool val)
-{
-	m_isObjComplete = val;
-}
-
-bool* Player::getIsObjectiveComplete()
-{
-	return &m_isObjComplete;
 }
 
 float Player::getDeltaY() const
@@ -239,11 +224,6 @@ void Player::modifyHealth(float change)
 	{
 		state = dying;
 	}
-}
-
-void Player::modifyGold(float change)
-{
-	m_gold += change;
 }
 
 #pragma endregion
