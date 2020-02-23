@@ -68,6 +68,9 @@ private:
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft;
 
+	//Handled by state instead ?
+	//bool bIsAlive;
+
 	//Passing this for the animations -- update() frequency should be controlled by Game::update()
 	double &elapsed;
 	float fDeltaY;

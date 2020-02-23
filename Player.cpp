@@ -36,6 +36,7 @@ void Player::update()
 
 #pragma region State
 
+
 	switch (state)
 	{
 	case dying:
