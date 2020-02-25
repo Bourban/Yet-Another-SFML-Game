@@ -21,14 +21,14 @@ Platform::Platform(sf::Texture & tex, int x, int y) : sf::Sprite(tex), rect(x, y
 }
 
 Platform::Platform(sf::Texture & tex, int x, int y, sf::Vector2f scale) : sf::Sprite(tex), rect(x, y, tex.getSize().x * scale.x, tex.getSize().y * scale.y),
-		top(x, y, tex.getSize().x * scale.x, (tex.getSize().y * scale.y) * 0.25f)
+		top(x, y, tex.getSize().x * scale.x, (tex.getSize().y * scale.y) * 0.15f)
 {
 		this->setPosition(x, y);
 
 		this->setScale(scale);
 
 		pls.setPosition(rect.left, rect.top);
-		pls.setSize(sf::Vector2f(rect.width, rect.height * 0.25f));
+		pls.setSize(sf::Vector2f(rect.width, rect.height * 0.15f));
 
 		pls.setFillColor(sf::Color::Transparent);
 		pls.setOutlineThickness(1.0f);

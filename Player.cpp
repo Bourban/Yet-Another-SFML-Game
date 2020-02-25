@@ -16,7 +16,7 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(
 	this->setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
 	//m_rect.setOrigin(20, 34);
-	m_rect.setSize(sf::Vector2f(m_body.width, m_body.height));
+	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
 	m_rect.setOutlineColor(sf::Color::Black);
 	m_rect.setOutlineThickness(1.0f);
 	m_rect.setFillColor(sf::Color::Transparent);
@@ -32,7 +32,7 @@ void Player::update()
 	m_inputHandler.handleInput();
 	handleDirection();
 
-	m_controller.update();
+	m_controller.update(elapsed);
 
 	switch (state)
 	{
@@ -88,7 +88,7 @@ void Player::update()
 	m_body.left = this->getPosition().x - 15;
 	m_body.top = this->getPosition().y - 35;
 
-	m_rect.setPosition(sf::Vector2f(m_body.left, m_body.top));
+	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
 
 	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
 		this->setPosition(this->getPosition().x, 0);

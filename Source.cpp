@@ -17,7 +17,6 @@ int main() {
 
 	*/
 
-	//change to 0 to default to menu when it's built
 	int currentScreen = 0;
 
 	MenuScreen menu;

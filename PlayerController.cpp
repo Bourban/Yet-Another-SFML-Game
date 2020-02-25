@@ -1,27 +1,15 @@
 #include "PlayerController.h"
 
 #include "Player.h"
-#include <iostream>
 
-PlayerController::PlayerController(Player* player) : m_player(player), m_healthBar(sf::Vector2f(20, 20), 200, this), m_health(50.0f), m_maxHealth(100.0f),
-														m_mana(50.0f), m_maxMana(100.0f)
+PlayerController::PlayerController(Player* player) : m_player(player), m_healthBar(sf::Vector2f(20, 20), 200, this, Health), m_manaBar(sf::Vector2f(20, 45), 200, this, Mana)
 {
-
+	m_health = 50.0f;
+	m_maxHealth = 100.0f;
 }
-
 
 PlayerController::~PlayerController()
 {
-}
-
-float PlayerController::getHealth() const
-{
-	return m_health;
-}
-
-float PlayerController::getMaxHealth() const
-{
-	return m_maxHealth;
 }
 
 void PlayerController::modifyHealth(float change)
@@ -50,13 +38,19 @@ void PlayerController::modifyMana(float change)
 	}
 }
 
-void PlayerController::update()
+void PlayerController::update(double &elapsed)
 {
-	std::cout << m_health << std::endl;
+	if (m_mana < m_maxMana)
+	{
+		m_mana += m_manaRegen * elapsed;
+	}
+
 	m_healthBar.update();
+	m_manaBar.update();
 }
 
 void PlayerController::draw(sf::RenderWindow& window)
 {
 	m_healthBar.draw(window);
+	m_manaBar.draw(window);
 }

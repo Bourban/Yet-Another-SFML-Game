@@ -4,11 +4,13 @@
 
 class PlayerController;
 
+enum BarType{Health, Mana};
+
 class HealthBar
 {
 public:
 	//HealthBar();
-	HealthBar(sf::Vector2f pos, float w, PlayerController* owner);
+	HealthBar(sf::Vector2f pos, float w, PlayerController* owner, BarType type);
 	~HealthBar();
 
 	void update();
@@ -16,6 +18,9 @@ public:
 	void draw(sf::RenderWindow& window);
 
 private:
+
+	BarType m_type;
+
 	sf::RectangleShape bg;
 	sf::RectangleShape bar;
 
