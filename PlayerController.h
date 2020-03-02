@@ -24,8 +24,6 @@ public:
 
 private:
 
-	
-
 	Player* m_player;
 	HealthBar m_healthBar;
 	HealthBar m_manaBar;

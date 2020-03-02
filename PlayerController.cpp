@@ -43,6 +43,11 @@ void PlayerController::update(double &elapsed)
 	if (m_mana < m_maxMana)
 	{
 		m_mana += m_manaRegen * elapsed;
+
+		if (m_mana > m_maxMana)
+		{
+			m_mana = m_maxMana;
+		}
 	}
 
 	m_healthBar.update();

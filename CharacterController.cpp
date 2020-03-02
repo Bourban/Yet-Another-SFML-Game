@@ -2,7 +2,7 @@
 
 
 
-CharacterController::CharacterController() : m_mana(50.0f), m_maxMana(100.0f), m_manaRegen(5.0f)
+CharacterController::CharacterController() : m_mana(50.0f), m_maxMana(100.0f), m_manaRegen(5.0f), m_health(100.0f), m_maxHealth(100.0f)
 {
 }
 
