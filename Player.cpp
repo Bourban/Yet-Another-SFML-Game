@@ -2,18 +2,17 @@
 
 //There's lots of hard-coded values in this file which I intend to address after I've added a bit more functionality
 
-Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(*this), crouchAnim(*this), attackAnim(*this),runAnim(*this), 
-														jumpAnim(*this), elapsed(elapsed), bIsFacingLeft(false), state(idle), 
-															m_feetBox(0, 0, 35, 10), m_speed(200.0f), m_inputHandler(this),
-																jumpHeight(300.0f), maxFallSpeed(450.0f), m_body(0, 0, 35, 60), m_controller(this)
+Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(m_sprite), crouchAnim(m_sprite), attackAnim(m_sprite),runAnim(m_sprite), 
+														jumpAnim(m_sprite), elapsed(elapsed), m_feetBox(0, 0, 35, 10),m_inputHandler(this), 
+															m_body(0, 0, 35, 60), m_controller(this)
 {
-	this->setTexture(tex);
+	m_sprite.setTexture(tex);
 	initializeAnims();
 
 	//TODO: actually calculate this
 	m_spriteSize = sf::Vector2f(136, 96);
 
-	this->setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
+	m_sprite.setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
 	//m_rect.setOrigin(20, 34);
 	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
@@ -29,8 +28,9 @@ Player::~Player()
 
 void Player::update()
 {
+	Character::update();
+
 	m_inputHandler.handleInput();
-	handleDirection();
 
 	m_controller.update(elapsed);
 
@@ -68,25 +68,13 @@ void Player::update()
 		break;
 	}
 
-	if (bIsTouchingFloor)
-	{
-		if (state == jumping) 
-		{
-			state = idle;
-			fDeltaY = -50;
-		}
-	}
-
-	if (!bIsTouchingFloor && state != dead)
-	{
-		state = jumping;
-	}
 
 	m_feetBox.left = this->getPosition().x - 17.5f;
 	m_feetBox.top = this->getPosition().y + 18;
 
 	m_body.left = this->getPosition().x - 15;
 	m_body.top = this->getPosition().y - 35;
+
 
 	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
 
@@ -96,22 +84,11 @@ void Player::update()
 
 void Player::draw(sf::RenderWindow & window)
 {
-	window.draw(*this);
+	window.draw(m_sprite);
 	m_controller.draw(window);
 }
 
 #pragma region Getters + Setters
-
-
-void Player::setIsTouchingFloor(bool val)
-{
-	this->bIsTouchingFloor = val;
-}
-
-float Player::getDeltaY() const
-{
-	return fDeltaY;
-}
 
 PlayerController* Player::getController()
 {
@@ -123,90 +100,8 @@ sf::Rect<int> Player::getBody() const
 	return m_body;
 }
 
-State Player::getState() const
-{
-	return state;
-}
-
-void Player::setState(State s)
-{
-	state = s;
-}
-
 #pragma endregion
 
-
-void Player::handleDirection()
-{
-	if (!bIsFacingLeft) {
-		this->setScale(1, 1);
-	}
-	else {
-		this->setScale(-1, 1);
-	}
-}
-
-#pragma region Input + Actions
-
-
-void Player::moveLeft()
-{
-	if (state != crouching && state != attacking)
-	{
-		this->move(-m_speed * elapsed, 0);
-		bIsFacingLeft = true;
-
-		if (state != jumping)
-		{
-			state = moving;
-		}
-	}
-}
-
-void Player::moveRight()
-{
-	if (state != crouching && state != attacking)
-	{
-		this->move(m_speed * elapsed, 0);
-		bIsFacingLeft = false;
-
-		if (state != jumping)
-		{
-			state = moving;
-		}
-	}
-}
-
-void Player::attack()
-{
-	if(state != jumping)
-	state = attacking;
-}
-
-void Player::crouch()
-{
-	if (state != jumping)
-	{
-		state = crouching;
-	}
-}
-
-void Player::jump()
-{
-	if (state == crouching)
-	{
-		state = idle;
-		return;
-	}
-	if (state != jumping  && state != attacking)
-	{
-		bIsTouchingFloor = false;
-		state = jumping;
-		fDeltaY = jumpHeight;
-	}
-}
-
-#pragma endregion
 
 void Player::initializeAnims()
 {
