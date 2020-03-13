@@ -10,10 +10,6 @@
 #include "InputHandler.h"
 #include "Character.h"
 
-//State machine to handle animations and control when certain actions can be taken
-//Should probably name states like STATE_IDLE etc.
-//enum State {idle, moving, jumping, attacking, crouching, dying, dead};
-
 class Player : public Character
 {
 //Methods
@@ -24,17 +20,14 @@ public:
 	void update() override;
 	void draw(sf::RenderWindow & window);
 
-	
-
 	PlayerController* getController();
 
 	sf::Rect<int> getBody() const;
 
 private:
 
-	virtual void initializeAnims();
+	void initializeAnims();
 	
-
 //variables
 
 private:

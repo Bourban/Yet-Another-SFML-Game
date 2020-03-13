@@ -93,7 +93,24 @@ void Game::update()
 		p_player->setIsTouchingFloor(false);
 	}
 
+	//std::vector<Projectile*>::iterator iter_projectiles = projectiles.begin();
+
+	/*while (projectiles.size() && iter_projectiles != projectiles.end())
+	{
+		Projectile* p = *iter_projectiles;
+
+		if (p->checkCollision())
+		{
+			
+		}
+		else
+		{
+			iter_projectiles++;
+		}
+	}*/
+
 	std::vector<Pickup*>::iterator it = pickups.begin();
+
 	while(pickups.size()  && it != pickups.end())
 	{
 		Pickup* p = *it;
@@ -132,9 +149,14 @@ bool Game::loadContent()
 	{
 		return false;
 	}
+	if (!projectileTex.loadFromFile("Assets/fireball.png"))
+	{
+		return false;
+	}
+
 
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));
 
 	platforms.push_back(std::move(new Platform(grassTex, 0, 600, sf::Vector2f(0.1, 0.1))));
@@ -144,7 +166,6 @@ bool Game::loadContent()
 	p_player = new Player(playerTex, elapsed);
 
 	p_player->setPosition(200, 400);
-
 
 	return true;
 }

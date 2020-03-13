@@ -11,6 +11,7 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(m_sprite), crouchAn
 
 	//TODO: actually calculate this
 	m_spriteSize = sf::Vector2f(136, 96);
+	m_spriteSize = sf::Vector2f(136, 96);
 
 	m_sprite.setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 

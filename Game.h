@@ -7,17 +7,18 @@
 #include "Helpers.h"
 #include "Platform.h"
 #include "Pickup.h"
+#include "Projectile.h"
 
 class Game : public Screen
 {
 public:
-	Game();
 
+	Game();
 	~Game();
 
 	bool loadContent();
 
-	void update();
+	virtual void update();
 	void render(sf::RenderWindow &window);
 
 	int run(sf::RenderWindow &window);
@@ -26,7 +27,7 @@ public:
 
 	//Variables
 
-private:
+protected:
 	sf::Clock clock;
 	double elapsed;
 
@@ -34,10 +35,12 @@ private:
 
 	std::vector<Platform*> platforms;
 	std::vector<Pickup*> pickups;
+	std::vector<Projectile*> projectiles;
 
 	sf::Texture playerTex;
 	sf::Texture grassTex;
 	sf::Texture cheeseTex;
+	sf::Texture projectileTex;
 
 	Player* p_player;
 

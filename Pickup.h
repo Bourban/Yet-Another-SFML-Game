@@ -10,7 +10,7 @@ enum Type {gold, health, objective};
 class Pickup : public sf::Sprite
 {
 public:
-	Pickup(sf::Vector2f pos, sf::Texture &tex, Type type, float amount);
+	Pickup(sf::Vector2f pos, sf::Texture &tex, Type type = health, float amount = 20.0f);
 	virtual ~Pickup();
 
 	sf::Rect<int> getRect();

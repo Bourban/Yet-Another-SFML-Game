@@ -6,23 +6,21 @@
 class CharacterController;
 
 //could just be a boolean but I think this is a bit neater
-enum OwnerTeam{Player, Enemy};
+enum OwnerTeam{PlayerTeam, EnemyTeam};
 
 class Projectile :
 	public sf::Sprite
 {
 public:
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, float speed, float dam, OwnerTeam team);
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f scale, sf::Vector2f dir, float speed, float dam, OwnerTeam team);
-	//Player constructors
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, float speed);
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir);
+	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team = PlayerTeam , float speed = 5.0f, float dam = 50);
+	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team = PlayerTeam, float speed = 5.0f, float dam = 50,  sf::Vector2f scale = sf::Vector2f(1.0f, 1.0f));
+
 	~Projectile();
 
 	void update();
 	void draw(sf::RenderWindow &window);
 
-	void checkCollision();
+	bool checkCollision(sf::IntRect other);
 
 private:
 	//Re-refactor the player class to be able to use onHit on the base class which can be either enemy or player?
@@ -38,7 +36,7 @@ public:
 
 private:
 	//defaults to player for constructors without a OwnerTeam
-	OwnerTeam owner = Player;
+	OwnerTeam owner = PlayerTeam;
 
 	sf::Vector2f m_dir;
 	float m_speed;
