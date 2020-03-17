@@ -20,9 +20,7 @@ public:
 	void update() override;
 	void draw(sf::RenderWindow & window);
 
-	PlayerController* getController();
-
-	sf::Rect<int> getBody() const;
+	PlayerController* getController() override;
 
 private:
 
@@ -47,7 +45,7 @@ private:
 	InputHandler m_inputHandler;
 	PlayerController m_controller;
 
-	sf::Rect<int> m_body;
+	
 
 public:
 

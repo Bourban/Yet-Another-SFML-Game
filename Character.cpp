@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "Helpers.h"
 
 Character::Character()
 {
@@ -10,7 +11,7 @@ Character::~Character()
 
 void Character::update()
 {
-	//handleDirection();
+	handleDirection();
 
 	if (bIsTouchingFloor)
 	{
@@ -28,17 +29,18 @@ void Character::update()
 
 	m_sprite.setPosition(this->getPosition());
 
+	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
+		this->setPosition(this->getPosition().x, 0);
 }
 
-//Not using this, setScale every frame bad!
 void Character::handleDirection()
 {
 	if (!bIsFacingLeft) {
-		//this->setScale(1, 1);
+		this->setScale(1, 1);
 		m_sprite.setScale(1, 1);
 	}
 	else {
-		//this->setScale(-1, 1);
+		this->setScale(-1, 1);
 		m_sprite.setScale(-1, 1);
 	}
 }
@@ -48,7 +50,6 @@ void Character::handleDirection()
 
 void Character::moveLeft()
 {
-	m_sprite.setScale(-1, 1);
 	if (state != crouching && state != attacking)
 	{
 		this->move(-m_speed, 0);
@@ -63,7 +64,6 @@ void Character::moveLeft()
 
 void Character::moveRight()
 {
-	m_sprite.setScale(1, 1);
 	if (state != crouching && state != attacking)
 	{
 		this->move(m_speed, 0);
@@ -108,6 +108,16 @@ void Character::jump()
 #pragma endregion
 
 #pragma region Getters + Setters
+
+sf::Rect<int> Character::getBody() const
+{
+	return m_body;
+}
+
+CharacterController * Character::getController()
+{
+	return nullptr;
+}
 
 void Character::setIsTouchingFloor(bool val)
 {

@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include "CharacterController.h"
+#include "Character.h"
 #include <SFML/Graphics/Texture.hpp>
 
 Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team, 
@@ -30,6 +31,11 @@ Projectile::~Projectile()
 {
 }
 
+OwnerTeam Projectile::getOwner() const
+{
+	return owner;
+}
+
 void Projectile::update()
 {
 	this->move((m_dir.x * m_speed) * m_elapsed, (m_dir.y * m_speed) * m_elapsed);
@@ -41,17 +47,16 @@ void Projectile::draw(sf::RenderWindow & window)
 	window.draw(*this);
 }
 
-bool Projectile::checkCollision(sf::IntRect other)
+void Projectile::checkCollision(Character &other)
 {
-	if(m_rect.intersects(other))
+	if(m_rect.intersects(other.getBody()))
 	{
-		return true;
+		//will probably break everything
+		onHit(*(other.getController()));
 	}
-
-	return false;
 }
 
-void Projectile::onHit(CharacterController & cc)
+void Projectile::onHit(CharacterController &cc)
 {
 	cc.modifyHealth(-m_dam);
 }

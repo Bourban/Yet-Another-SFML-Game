@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class CharacterController;
+class Character;
 
 //could just be a boolean but I think this is a bit neater
 enum OwnerTeam{PlayerTeam, EnemyTeam};
@@ -17,10 +18,12 @@ public:
 
 	~Projectile();
 
+	OwnerTeam getOwner() const;
+
 	void update();
 	void draw(sf::RenderWindow &window);
 
-	bool checkCollision(sf::IntRect other);
+	void checkCollision(Character &other);
 
 private:
 	//Re-refactor the player class to be able to use onHit on the base class which can be either enemy or player?
@@ -40,6 +43,8 @@ private:
 
 	sf::Vector2f m_dir;
 	float m_speed;
+
+	sf::Vector2f m_spriteSize;
 
 	float m_dam = 33.0f;
 

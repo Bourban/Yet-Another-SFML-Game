@@ -4,16 +4,18 @@
 
 Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(m_sprite), crouchAnim(m_sprite), attackAnim(m_sprite),runAnim(m_sprite), 
 														jumpAnim(m_sprite), elapsed(elapsed), m_feetBox(0, 0, 35, 10),m_inputHandler(this), 
-															m_body(0, 0, 35, 60), m_controller(this)
+															 m_controller(this)
 {
 	m_sprite.setTexture(tex);
 	initializeAnims();
 
 	//TODO: actually calculate this
 	m_spriteSize = sf::Vector2f(136, 96);
-	m_spriteSize = sf::Vector2f(136, 96);
 
 	m_sprite.setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
+
+	m_body.height = 60;
+	m_body.width = 35;
 
 	//m_rect.setOrigin(20, 34);
 	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
@@ -79,8 +81,6 @@ void Player::update()
 
 	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
 
-	if (this->getPosition().y > Helpers::SCREEN_HEIGHT)
-		this->setPosition(this->getPosition().x, 0);
 }
 
 void Player::draw(sf::RenderWindow & window)
@@ -94,11 +94,6 @@ void Player::draw(sf::RenderWindow & window)
 PlayerController* Player::getController()
 {
 	return &m_controller;
-}
-
-sf::Rect<int> Player::getBody() const
-{
-	return m_body;
 }
 
 #pragma endregion

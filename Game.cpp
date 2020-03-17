@@ -95,19 +95,24 @@ void Game::update()
 
 	//std::vector<Projectile*>::iterator iter_projectiles = projectiles.begin();
 
-	/*while (projectiles.size() && iter_projectiles != projectiles.end())
-	{
-		Projectile* p = *iter_projectiles;
+	//while (projectiles.size() && iter_projectiles != projectiles.end())
+	//{
+	//	Projectile* p = *iter_projectiles;
 
-		if (p->checkCollision())
-		{
-			
-		}
-		else
-		{
-			iter_projectiles++;
-		}
-	}*/
+	//	p->update();
+
+	//	if (p->getOwner() == PlayerTeam)
+	//	{
+	//		//Check for collision against all enemies -- function takes care of OnHit
+	//		
+	//		// if hit, erase, if not increment
+	//	}
+	//	else if(p->getOwner() == EnemyTeam)
+	//	{
+	//		//Check for collision against player
+	//		iter_projectiles++;
+	//	}
+	//}
 
 	std::vector<Pickup*>::iterator it = pickups.begin();
 
