@@ -8,6 +8,7 @@
 #include "Platform.h"
 #include "Pickup.h"
 #include "Projectile.h"
+#include "BGSprite.h"
 
 class Game : public Screen
 {
@@ -36,13 +37,15 @@ protected:
 	std::vector<Platform*> platforms;
 	std::vector<Pickup*> pickups;
 	std::vector<Projectile*> projectiles;
+	std::vector<sf::Sprite*> backgroundSprites;
 
 	sf::Texture playerTex;
 	sf::Texture grassTex;
 	sf::Texture cheeseTex;
 	sf::Texture projectileTex;
+	sf::Texture treeTex;
+	sf::Texture bannerTex;
 
-	Player* p_player;
-
+	std::unique_ptr<Player> p_player;
 };
 

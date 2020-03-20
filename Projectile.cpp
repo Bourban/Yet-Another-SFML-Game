@@ -3,23 +3,25 @@
 #include "Character.h"
 #include <SFML/Graphics/Texture.hpp>
 
-Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team, 
-							float speed, float dam) : m_dir(dir), m_dam(dam), m_speed(speed), m_elapsed(elapsed), owner(team)
-{
-	this->setTexture(tex);
+//Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team, 
+//							float speed, float dam) : m_dir(dir), m_dam(dam), m_speed(speed), m_elapsed(elapsed), owner(team)
+//{
+//	this->setTexture(tex);
+//
+//	m_rect.left = this->getPosition().x;
+//	m_rect.top = this->getPosition().y;
+//	m_rect.width = tex.getSize().x;
+//	m_rect.height = tex.getSize().y;
+//}
 
-	m_rect.left = this->getPosition().x;
-	m_rect.top = this->getPosition().y;
-	m_rect.width = tex.getSize().x;
-	m_rect.height = tex.getSize().y;
-}
-
-Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team,
+Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, sf::Vector2f pos, OwnerTeam team,
 											float speed, float dam, sf::Vector2f scale) : m_dir(dir),
 													m_dam(dam), m_speed(speed), m_elapsed(elapsed), owner(team)
 {			
 	this->setTexture(tex);
+	this->setOrigin(tex.getSize().x, tex.getSize().y);
 	this->setScale(scale);
+	this->setPosition(pos);
 
 	m_rect.left = this->getPosition().x;
 	m_rect.top = this->getPosition().y;
@@ -47,13 +49,16 @@ void Projectile::draw(sf::RenderWindow & window)
 	window.draw(*this);
 }
 
-void Projectile::checkCollision(Character &other)
+bool Projectile::checkCollision(Character &other)
 {
 	if(m_rect.intersects(other.getBody()))
 	{
 		//will probably break everything
 		onHit(*(other.getController()));
+		return true;
 	}
+
+	return false;
 }
 
 void Projectile::onHit(CharacterController &cc)

@@ -34,6 +34,12 @@ int Game::run(sf::RenderWindow &window)
 				{
 					return 0;
 				}
+				if( event.key.code == sf::Keyboard::E) //temporary solution to test the projectiles functionality
+				{
+					//projectiles.push_back(std::move(new Projectile(elapsed, projectileTex, sf::Vector2f(-1.0f, 0.0f), sf::Vector2f(1500, 550), EnemyTeam, 100.0f, 20.0f, sf::Vector2f(-0.1f, 0.1f))));
+					projectiles.push_back(std::move(new Projectile(elapsed, projectileTex, sf::Vector2f(1.0f, 0.0f), sf::Vector2f(p_player->getPosition()), PlayerTeam, 150.0f, 20.0f, sf::Vector2f(0.1f, 0.1f))));
+					break;
+				}
 
 			default:
 				break;
@@ -54,19 +60,25 @@ void Game::cleanup()
 {
 	if (p_player)
 	{
-		delete p_player;
+		p_player.reset();
 	}
 
-	for (auto p : pickups) 
+	for (auto &p : pickups) 
 	{
 		delete p;
 	}
 	pickups.clear();
 
-	for (auto p : platforms) 
+	for (auto &p : platforms) 
 	{
 		delete p;
 	}
+
+	for (auto &p : projectiles) 
+	{
+		delete p;
+	}
+
 	platforms.clear();
 }
 
@@ -93,26 +105,35 @@ void Game::update()
 		p_player->setIsTouchingFloor(false);
 	}
 
-	//std::vector<Projectile*>::iterator iter_projectiles = projectiles.begin();
+	std::vector<Projectile*>::iterator iter_projectiles = projectiles.begin();
 
-	//while (projectiles.size() && iter_projectiles != projectiles.end())
-	//{
-	//	Projectile* p = *iter_projectiles;
+	while (projectiles.size() && iter_projectiles != projectiles.end())
+	{
+		Projectile* p = *iter_projectiles;
 
-	//	p->update();
+		p->update();
 
-	//	if (p->getOwner() == PlayerTeam)
-	//	{
-	//		//Check for collision against all enemies -- function takes care of OnHit
-	//		
-	//		// if hit, erase, if not increment
-	//	}
-	//	else if(p->getOwner() == EnemyTeam)
-	//	{
-	//		//Check for collision against player
-	//		iter_projectiles++;
-	//	}
-	//}
+		//Check if off-screen too
+
+		if (p->getOwner() == PlayerTeam)
+		{
+			//Check for collision against all enemies -- function takes care of OnHit
+			
+			// if hit, erase, if not increment
+
+			iter_projectiles++;
+		}
+		else if (p->getOwner() == EnemyTeam)
+		{
+			if (p->checkCollision(*p_player)) //This will also call onHit if true!
+			{
+				iter_projectiles = projectiles.erase(iter_projectiles);
+			}
+			else {
+				iter_projectiles++;
+			}
+		}
+	}
 
 	std::vector<Pickup*>::iterator it = pickups.begin();
 
@@ -154,11 +175,32 @@ bool Game::loadContent()
 	{
 		return false;
 	}
-	if (!projectileTex.loadFromFile("Assets/fireball.png"))
+	if (!projectileTex.loadFromFile("Assets/fireballsmall.png"))
+	{
+		return false;
+	}
+	if(!treeTex.loadFromFile("Assets/tree_fin.png"))
+	{
+		return false;
+	}
+	if(!bannerTex.loadFromFile("Assets/Sorcerer_Banner.png"))
 	{
 		return false;
 	}
 
+	backgroundSprites.push_back(std::move(new sf::Sprite(treeTex)));
+	backgroundSprites.push_back(std::move(new sf::Sprite(treeTex)));
+
+	//this will go out of scope at the end of the function, still come up with a better solution though
+	int i = 0;
+
+	for (auto &s : backgroundSprites )
+	{
+		s->setOrigin(sf::Vector2f(s->getTexture()->getSize().x / 2, s->getTexture()->getSize().y /2));
+		s->setScale(sf::Vector2f(0.15f, 0.15f));
+		s->setPosition(sf::Vector2f(400 +(600 * i), 480));
+		i++;
+	}
 
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex)));
@@ -168,7 +210,10 @@ bool Game::loadContent()
 	platforms.push_back(std::move(new Platform(grassTex, 260, 600, sf::Vector2f(0.15, 0.1))));
 	platforms.push_back(std::move(new Platform(grassTex, 900, 600, sf::Vector2f(0.15, 0.1))));
 
-	p_player = new Player(playerTex, elapsed);
+	projectiles.push_back(std::move(new Projectile(elapsed, projectileTex, sf::Vector2f(-1.0f, 0.0f), sf::Vector2f(1500, 550), EnemyTeam, 100.0f, 20.0f ,sf::Vector2f(-0.1f, 0.1f))));
+	projectiles.push_back(std::move(new Projectile(elapsed, projectileTex, sf::Vector2f(-1.0f, 0.0f), sf::Vector2f(1550, 550), EnemyTeam, 100.0f, 20.0f, sf::Vector2f(-0.1f, 0.1f))));
+
+	p_player = std::unique_ptr<Player>(new Player(playerTex, elapsed));
 
 	p_player->setPosition(200, 400);
 
@@ -178,7 +223,13 @@ bool Game::loadContent()
 void Game::render(sf::RenderWindow &window)
 {
 	window.clear(sf::Color::Cyan);
-	for (auto p : platforms)
+
+	for (auto &p : backgroundSprites)
+	{
+		window.draw(*p);
+	}
+
+	for (auto &p : platforms)
 	{
 		window.draw(*p);
 		if (Helpers::bDebugMode == true)
@@ -195,6 +246,11 @@ void Game::render(sf::RenderWindow &window)
 		}
 	}
 	
+	for(auto &p : projectiles)
+	{
+		window.draw(*p);
+	}
+
 	p_player->draw(window);
 	
 	if (Helpers::bDebugMode == true)

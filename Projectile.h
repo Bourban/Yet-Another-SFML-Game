@@ -13,8 +13,8 @@ class Projectile :
 	public sf::Sprite
 {
 public:
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team = PlayerTeam , float speed = 5.0f, float dam = 50);
-	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team = PlayerTeam, float speed = 5.0f, float dam = 50,  sf::Vector2f scale = sf::Vector2f(1.0f, 1.0f));
+	//Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team = PlayerTeam , float speed = 5.0f, float dam = 50);
+	Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, sf::Vector2f pos, OwnerTeam team = PlayerTeam, float speed = 100.0f, float dam = 50,  sf::Vector2f scale = sf::Vector2f(1.0f, 1.0f));
 
 	~Projectile();
 
@@ -23,7 +23,7 @@ public:
 	void update();
 	void draw(sf::RenderWindow &window);
 
-	void checkCollision(Character &other);
+	bool checkCollision(Character &other);
 
 private:
 	//Re-refactor the player class to be able to use onHit on the base class which can be either enemy or player?
