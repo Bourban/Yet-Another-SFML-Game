@@ -20,6 +20,9 @@ int Game::run(sf::RenderWindow &window)
 		return -5;
 	}
 
+	//Restart the clock before the first update, otherwise the cumulative time on the menu causes issues on the very first frame
+	clock.restart();
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -27,11 +30,13 @@ int Game::run(sf::RenderWindow &window)
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
+				cleanup();
 				return -1;
 				
 			case sf::Event::KeyReleased:
 				if (event.key.code == sf::Keyboard::BackSpace)
 				{
+					cleanup();
 					return 0;
 				}
 				if( event.key.code == sf::Keyboard::E) //temporary solution to test the projectiles functionality
@@ -60,12 +65,14 @@ void Game::cleanup()
 {
 	if (p_player)
 	{
+		//not necessary?
 		p_player.reset();
 	}
 
 	for (auto &p : pickups) 
 	{
-		delete p;
+		//Not necessary with smart pointers
+		//delete p;
 	}
 	pickups.clear();
 
@@ -135,7 +142,18 @@ void Game::update()
 		}
 	}
 
-	std::vector<Pickup*>::iterator it = pickups.begin();
+	for(auto&& p : pickups)
+	{
+		if (p_player->getBody().intersects(p->getRect()))
+		{
+			p->onPickup(p_player->getController());
+			pickups.erase(std::remove(pickups.begin(), pickups.end(), p), pickups.end());
+			//break isn't an ideal solution, as we don't check the rest of the vector after this one, but this does run every frame, so any overlapping pickup can be processed on the next frame
+			break;
+		}
+	}
+
+	/*std::vector<Pickup*>::iterator it = pickups.begin();
 
 	while(pickups.size()  && it != pickups.end())
 	{
@@ -150,7 +168,7 @@ void Game::update()
 		{
 			++it; 
 		}
-	}
+	}*/
 
 	if (elapsed > Helpers::MS_PER_UPDATE) 
 	{
@@ -202,9 +220,13 @@ bool Game::loadContent()
 		i++;
 	}
 
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(300, 570), cheeseTex));
+	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(340, 570), cheeseTex));
+	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(940, 570), cheeseTex));
+
+	/*pickups.push_back(std::move(new Pickup(sf::Vector2f(300, 570), cheeseTex, health, 20.0f)));
 	pickups.push_back(std::move(new Pickup(sf::Vector2f(340, 570), cheeseTex)));
-	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));
+	pickups.push_back(std::move(new Pickup(sf::Vector2f(940, 570), cheeseTex, health, 20.0f)));*/
 
 	platforms.push_back(std::move(new Platform(grassTex, 0, 600, sf::Vector2f(0.1, 0.1))));
 	platforms.push_back(std::move(new Platform(grassTex, 260, 600, sf::Vector2f(0.15, 0.1))));
