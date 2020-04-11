@@ -34,24 +34,22 @@ protected:
 
 	float timeSinceLastUpdate;
 
-	//Consider changing to smart pointers, current method should work fine but this is more modern C++ -- handles the deleting itself when out of scope 
-
 	std::vector<std::unique_ptr<Platform>> platforms;
 	std::vector<std::unique_ptr<Pickup>> pickups;
 	std::vector<std::unique_ptr<Projectile>> projectiles;
-	//std::vector<std::unique_ptr<sf::Sprite>> backgroundSprites;
 
-	//std::vector<Platform*> platforms;
-	/*std::vector<Pickup*> pickups;*/
-	//std::vector<Projectile*> projectiles;
-	std::vector<sf::Sprite*> backgroundSprites;
+	std::vector<std::unique_ptr<BGSprite>> backgroundSprites;
 
+	//Maybe consider a resources struct
 	sf::Texture playerTex;
 	sf::Texture grassTex;
 	sf::Texture cheeseTex;
 	sf::Texture projectileTex;
 	sf::Texture treeTex;
 	sf::Texture bannerTex;
+	sf::Texture UIbgTex;
+	sf::Texture UIhealthTex;
+	sf::Texture UImanaTex;
 
 	std::unique_ptr<Player> p_player;
 };

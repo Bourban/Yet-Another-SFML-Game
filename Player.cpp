@@ -15,10 +15,10 @@ Player::Player(sf::Texture &tex, double &elapsed) : idleAnim(m_sprite), crouchAn
 	m_sprite.setOrigin(m_spriteSize.x / 2, m_spriteSize.y / 2);
 
 	m_body.height = 60;
-	m_body.width = 35;
+	m_body.width = 32;
 
 	//m_rect.setOrigin(20, 34);
-	m_rect.setSize(sf::Vector2f(m_feetBox.width, m_feetBox.height));
+	m_rect.setSize(sf::Vector2f(m_body.width, m_body.height));
 	m_rect.setOutlineColor(sf::Color::Black);
 	m_rect.setOutlineThickness(1.0f);
 	m_rect.setFillColor(sf::Color::Transparent);
@@ -71,15 +71,21 @@ void Player::update()
 		break;
 	}
 
-
 	m_feetBox.left = this->getPosition().x - 17.5f;
 	m_feetBox.top = this->getPosition().y + 18;
 
-	m_body.left = this->getPosition().x - 15;
-	m_body.top = this->getPosition().y - 35;
+	if (state == crouching) 
+	{
+		m_body.left = this->getPosition().x - 17;
+		m_body.top = this->getPosition().y - 35 + (m_spriteSize.y / 3);
+	} 
+	else 
+	{
+		m_body.left = this->getPosition().x - 17;
+		m_body.top = this->getPosition().y - 35;
+	}
 
-
-	m_rect.setPosition(sf::Vector2f(m_feetBox.left, m_feetBox.top));
+	m_rect.setPosition(sf::Vector2f(m_body.left, m_body.top));
 
 }
 
@@ -97,7 +103,6 @@ PlayerController* Player::getController()
 }
 
 #pragma endregion
-
 
 void Player::initializeAnims()
 {

@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-PlayerController::PlayerController(Player* player) : m_player(player), m_healthBar(sf::Vector2f(20, 20), 200, this, Health), m_manaBar(sf::Vector2f(20, 45), 200, this, Mana)
+PlayerController::PlayerController(Player* player) : m_player(player), m_healthBar(sf::Vector2f(80, 20), 300, this, Health), m_manaBar(sf::Vector2f(80, 60), 300, this, Mana)
 {
 	m_health = 50.0f;
 	m_maxHealth = 100.0f;
@@ -10,6 +10,12 @@ PlayerController::PlayerController(Player* player) : m_player(player), m_healthB
 
 PlayerController::~PlayerController()
 {
+}
+
+void PlayerController::addTexturesToBars(sf::Texture & bgTex, sf::Texture & barTexHealth, sf::Texture & barTexMana)
+{
+	m_healthBar.addTextures(bgTex, barTexHealth);
+	m_manaBar.addTextures(bgTex, barTexMana);
 }
 
 void PlayerController::modifyHealth(float change)

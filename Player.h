@@ -39,13 +39,9 @@ private:
 	//Passing this for the animations -- update() frequency should be controlled by Game::update()
 	double &elapsed;
 	
-
-	sf::Vector2f m_spriteSize;
-
 	InputHandler m_inputHandler;
 	PlayerController m_controller;
 
-	
 
 public:
 

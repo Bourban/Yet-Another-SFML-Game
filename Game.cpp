@@ -162,35 +162,45 @@ bool Game::loadContent()
 	{
 		return false;
 	}
-
-	backgroundSprites.push_back(std::move(new sf::Sprite(treeTex)));
-	backgroundSprites.push_back(std::move(new sf::Sprite(treeTex)));
-
-	//this will go out of scope at the end of the function, still come up with a better solution though
-	int i = 0;
-
-	//repalce this with BGSprites
-	for (auto &s : backgroundSprites )
+	if (!UIbgTex.loadFromFile("Assets/Health_Bar_Holder.png"))
 	{
-		s->setOrigin(sf::Vector2f(s->getTexture()->getSize().x / 2, s->getTexture()->getSize().y /2));
-		s->setScale(sf::Vector2f(0.15f, 0.15f));
-		s->setPosition(sf::Vector2f(400 +(600 * i), 480));
-		i++;
+		return false;
+	}
+	if (!UIhealthTex.loadFromFile("Assets/Health_Bar_Full.png"))
+	{
+		return false;
+	}
+	if (!UImanaTex.loadFromFile("Assets/Mana_Bar_Full.png"))
+	{
+		return false;
 	}
 
-	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(300, 570), cheeseTex));
-	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(340, 570), cheeseTex));
-	pickups.push_back(std::make_unique<Pickup>(sf::Vector2f(940, 570), cheeseTex));
+	//Do this algorithmically, this will do for now, stops the vector from needing to be resized (and thus copied)
+	backgroundSprites.reserve(3);
 
-	platforms.push_back(std::make_unique<Platform>(grassTex, 0, 600, sf::Vector2f(0.1, 0.1)));
-	platforms.push_back(std::make_unique<Platform>(grassTex, 260, 600, sf::Vector2f(0.15, 0.1)));
-	platforms.push_back(std::make_unique<Platform>(grassTex, 900, 600, sf::Vector2f(0.15, 0.1)));
+	backgroundSprites.emplace_back(std::make_unique<BGSprite>(treeTex, sf::Vector2f(400, 500), sf::Vector2f(0.12f, 0.12f)));
+	backgroundSprites.emplace_back(std::make_unique<BGSprite>(treeTex, sf::Vector2f(1000, 480), sf::Vector2f(-0.15f, 0.15f)));
+	backgroundSprites.emplace_back(std::make_unique<BGSprite>(bannerTex, sf::Vector2f(100, 530), sf::Vector2f(0.05f, 0.05f)));
 
-	projectiles.push_back(std::make_unique<Projectile>(elapsed, projectileTex, sf::Vector2f(-1.0f, 0.0f), sf::Vector2f(1550, 550), EnemyTeam, 100.0f, 20.0f, sf::Vector2f(-0.1f, 0.1f)));
+	pickups.reserve(3);
 
-	p_player = std::unique_ptr<Player>(new Player(playerTex, elapsed));
+	pickups.emplace_back(std::make_unique<Pickup>(sf::Vector2f(300, 570), cheeseTex));
+	pickups.emplace_back(std::make_unique<Pickup>(sf::Vector2f(340, 570), cheeseTex));
+	pickups.emplace_back(std::make_unique<Pickup>(sf::Vector2f(940, 570), cheeseTex));
+
+	platforms.reserve(3);
+
+	platforms.emplace_back(std::make_unique<Platform>(grassTex, 0, 600, sf::Vector2f(0.1, 0.1)));
+	platforms.emplace_back(std::make_unique<Platform>(grassTex, 260, 600, sf::Vector2f(0.15, 0.1)));
+	platforms.emplace_back(std::make_unique<Platform>(grassTex, 900, 600, sf::Vector2f(0.15, 0.1)));
+
+	projectiles.emplace_back(std::make_unique<Projectile>(elapsed, projectileTex, sf::Vector2f(-1.0f, 0.0f), sf::Vector2f(1550, 550), EnemyTeam, 100.0f, 20.0f, sf::Vector2f(-0.1f, 0.1f)));
+
+	p_player = std::make_unique<Player>(playerTex, elapsed);
 
 	p_player->setPosition(200, 400);
+
+	p_player->getController()->addTexturesToBars(UIbgTex, UIhealthTex, UImanaTex);
 
 	return true;
 }
@@ -223,7 +233,7 @@ void Game::render(sf::RenderWindow &window)
 	
 	for(auto &p : projectiles)
 	{
-		window.draw(*p);
+		p->draw(window);
 	}
 
 	p_player->draw(window);

@@ -1,32 +1,30 @@
 #include "Projectile.h"
 #include "CharacterController.h"
 #include "Character.h"
+#include "Helpers.h"
 #include <SFML/Graphics/Texture.hpp>
-
-//Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, OwnerTeam team, 
-//							float speed, float dam) : m_dir(dir), m_dam(dam), m_speed(speed), m_elapsed(elapsed), owner(team)
-//{
-//	this->setTexture(tex);
-//
-//	m_rect.left = this->getPosition().x;
-//	m_rect.top = this->getPosition().y;
-//	m_rect.width = tex.getSize().x;
-//	m_rect.height = tex.getSize().y;
-//}
 
 Projectile::Projectile(double& elapsed, sf::Texture &tex, sf::Vector2f dir, sf::Vector2f pos, OwnerTeam team,
 											float speed, float dam, sf::Vector2f scale) : m_dir(dir),
 													m_dam(dam), m_speed(speed), m_elapsed(elapsed), owner(team)
 {			
 	this->setTexture(tex);
-	this->setOrigin(tex.getSize().x, tex.getSize().y);
+	this->setOrigin(tex.getSize().x / 2, tex.getSize().y / 2);
 	this->setScale(scale);
 	this->setPosition(pos);
 
-	m_rect.left = this->getPosition().x;
-	m_rect.top = this->getPosition().y;
-	m_rect.width = tex.getSize().x * scale.x;
-	m_rect.height = tex.getSize().y * scale.y;
+	m_spriteSize = sf::Vector2f(tex.getSize().x * scale.x, tex.getSize().y * scale.y);
+
+	m_rect.left = this->getPosition().x - m_spriteSize.x / 2;
+	m_rect.top = this->getPosition().y - m_spriteSize.y / 2;
+	m_rect.width = m_spriteSize.x;
+	m_rect.height = m_spriteSize.y;
+
+	pls.setSize(m_spriteSize);
+	pls.setOutlineColor(sf::Color::Black);
+	pls.setOutlineThickness(1.0f);
+	pls.setFillColor(sf::Color::Transparent);
+	//pls.setOrigin(m_spriteSize / 2.0f);
 }
 
 Projectile::~Projectile()
@@ -47,6 +45,8 @@ void Projectile::update()
 void Projectile::draw(sf::RenderWindow & window)
 {
 	window.draw(*this);
+	if (Helpers::bDebugMode == true)
+	window.draw(pls);
 }
 
 bool Projectile::checkCollision(Character &other)
@@ -68,6 +68,8 @@ void Projectile::onHit(CharacterController &cc)
 
 void Projectile::handleBox()
 {
-	m_rect.left = this->getPosition().x;
-	m_rect.top = this->getPosition().y;
+	m_rect.left = this->getPosition().x - m_spriteSize.x / 2;
+	m_rect.top = this->getPosition().y - m_spriteSize.y / 2;
+
+	pls.setPosition(m_rect.left, m_rect.top);
 }

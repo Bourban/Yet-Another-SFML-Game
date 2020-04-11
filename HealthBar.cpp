@@ -1,15 +1,15 @@
 #include "HealthBar.h"
 #include "PlayerController.h"
 
-HealthBar::HealthBar(sf::Vector2f pos, float w, PlayerController* owner, BarType type) : m_pos(pos), m_owner(owner), bg(sf::Vector2f(w + 2, 22)), bar(sf::Vector2f(w, 20)),
-m_type(type)
+HealthBar::HealthBar(sf::Vector2f pos, float w, PlayerController* owner, BarType type) : 
+										m_pos(pos), m_owner(owner), bg(sf::Vector2f(w + 2, 32)), bar(sf::Vector2f(w, 30)), m_type(type)
 {
 	bg.setPosition(pos.x - 1, pos.y - 1);
 	bar.setPosition(pos);
 
-	bg.setFillColor(sf::Color(0, 0, 0, 155));
+	//bg.setFillColor(sf::Color(0, 0, 0, 155));
 	bg.setOutlineColor(sf::Color::Black);
-	bg.setOutlineThickness(1.f);
+	//bg.setOutlineThickness(1.f);
 
 	if (m_type == Health)
 	{
@@ -24,6 +24,12 @@ m_type(type)
 
 HealthBar::~HealthBar()
 {
+}
+
+void HealthBar::addTextures(sf::Texture & bgTex, sf::Texture & barTex)
+{
+	bg.setTexture(&bgTex);
+	bar.setTexture(&barTex);
 }
 
 void HealthBar::update()

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class CharacterController;
 class Character;
@@ -51,6 +52,8 @@ private:
 	double& m_elapsed;
 
 	sf::IntRect m_rect;
+
+	sf::RectangleShape pls;
 
 };
 

@@ -11,6 +11,7 @@ public:
 	PlayerController(Player* player);
 	~PlayerController();
 
+	void addTexturesToBars(sf::Texture& bgTex, sf::Texture& barTexHealth, sf::Texture& barTexMana);
 
 	void modifyHealth(float change);
 	void modifyMana(float change);
@@ -18,7 +19,7 @@ public:
 	void update(double &elapsed);
 	void draw(sf::RenderWindow& window);
 
-	//members
+//members
 
 public:
 

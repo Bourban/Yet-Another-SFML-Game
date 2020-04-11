@@ -43,6 +43,8 @@ protected:
 
 	sf::Sprite m_sprite;
 
+	sf::Vector2f m_spriteSize;
+
 	bool bIsTouchingFloor;
 	bool bIsFacingLeft = false;
 
