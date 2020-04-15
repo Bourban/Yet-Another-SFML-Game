@@ -31,6 +31,25 @@ screens.push_back(&menu);
 
 As mentioned earlier, all someone has to do to make a new level is popluate the appropriate vectors and the `GameScreen` class will handle the rest, as long as they call `GameScreen::run()` in their own derived class's `run()` function. This is all handled by having `GameScreen` iterate through each of the vectors of game objects (which are inherited and can be populated by the child class) in its own `update()` and `draw()` functions , which are then called by its `run()` function: 
 
+```int GameScreen::run(sf::RenderWindow &window) 
+{
+	while (window.isOpen())
+	{
+		//Some omitted SFML stuff here, 
+		//which handles breaking this while loop 
+		
+		//reset the clock between frames
+		elapsed = clock.restart().asSeconds();
+
+		//Main loop functions here
+		update();	
+		render(window);
+	}
+
+	cleanup();
+}
+```
+
 ### Memory Management
 
 Currently, the `GameScreen` class has vectors of unique pointers which are iterated through in the `render()` and `update()` methods to handle the game loops of the derived classes described above. Unique pointers go great with vectors; all you need to do is declare it like you would a vector of raw pointers but, well, with `std::unique_pointer` instead, like so:
