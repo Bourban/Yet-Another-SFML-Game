@@ -27,6 +27,9 @@ MenuScreen menu;
 screens.push_back(&menu);
 ```
 
+### Handling `update()` and `draw()` for objects in new levels
+
+As mentioned earlier, all someone has to do to make a new level is popluate the appropriate vectors and the `GameScreen` class will handle the rest, as long as they call `GameScreen::run()` in their own derived class's `run()` function. This is all handled by having `GameScreen` iterate through each of the vectors of game objects (which are inherited and can be populated by the child class) in its own `update()` and `draw()` functions , which are then called by its `run()` function: 
 
 ### Memory Management
 
