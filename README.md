@@ -27,28 +27,11 @@ MenuScreen menu;
 screens.push_back(&menu);
 ```
 
-### Handling `update()` and `draw()` for objects in new levels
+### Handling `update()` and `draw()` for objects in new levels (In progress!)
 
-As mentioned earlier, all someone has to do to make a new level is popluate the appropriate vectors and the `GameScreen` class will handle the rest, as long as they call `GameScreen::run()` in their own derived class's `run()` function. This is all handled by having `GameScreen` iterate through each of the vectors of game objects (which are inherited and can be populated by the child class) in its own `update()` and `draw()` functions , which are then called by its `run()` function: 
+As mentioned earlier, all I have to do to make a new level is popluate the appropriate vectors and the base `GameScreen` class will handle the rest, as long as I call `GameScreen::run()` in the new derived class's `run()` function.
 
-```int GameScreen::run(sf::RenderWindow &window) 
-{
-	while (window.isOpen())
-	{
-		//Some omitted SFML stuff here, 
-		//which handles breaking this while loop 
-		
-		//reset the clock between frames
-		elapsed = clock.restart().asSeconds();
-
-		//Main loop functions here
-		update();	
-		render(window);
-	}
-
-	cleanup();
-}
-```
+This is all handled by having `GameScreen` iterate through each of the vectors of game objects (which are inherited and can be populated by the child class) in its own `update()` and `draw()` functions , which are then called by its `run()` function.
 
 ### Memory Management
 
