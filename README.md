@@ -1,9 +1,83 @@
-## Sorry, first draft of the readme might be a bit rough
-
 # Yet-Another-SFML-Game
 Small platformer game made in SFML/C++. 
 
 I have been using this game to apply techniques I've learned about in books and on StackOverflow, particularly the idea of having a "screen" system and trying to learn more about memory management. Older files may be of lower quality than newer ones as this experience has been quite beneficial to me and this project reflects that skill development.
+
+### Character State Machine
+
+The base character class in this project contains a pseudo state machine (just an enum member) which allows me to change the behaviour of the `update()` function depending on the current state. For example if the character's current state is 'jumping' then `update()` will move the character down the appropriate amount. The value of this state member is also a condition for many of the character's input functions, for instance the character cannot crouch if they are currently 'jumping' conversely, if a character is crouching and they jump, the character will simply stand up (by changing the value of state to 'idle') instead. 
+
+### Character Platforming and Physics
+
+Built on this state system is the platforming system; every `Character` objecct has an `fDeltaY` member which, as you might guess, is the character's movement delta on the Y axis. This is applied to the character's movement if they are in the 'jumping' state, when the character jumps this is given a large positive value (controlled by `jumpHeight` in the `Character` class) and every subsequent frame this is reduced by the character's maximum fall speed (`maxFallSpeed`) to act as gravity, so that the character's jump mimics a real jump; a large initial impulse that is gradually reduced by gravity until it turns negative, and the character begins to fall. This negative velocity is capped at `maxFallSpeed` to mimic a terminal velocity.
+
+```
+//in Character::update()
+switch(state)
+
+...
+
+case jumping:
+	this->move(0, -(fDeltaY * elapsed));
+
+	if (fDeltaY > -maxFallSpeed)
+		fDeltaY -= maxFallSpeed * elapsed;
+	else
+		fDeltaY = -maxFallSpeed;
+
+	jumpAnim.update(elapsed);
+	break;
+```
+
+(I should point out that these values are multiplied by `elapsed` in an attempt to compensate for varying frame rates. Like I said, some areas of this project are older, and I would not implement this in this manner if I were to start the project again because it technically makes the game non-deterministic, and could be the source of some *interesting* bugs. Instead of just running `update()` as often as possible, I'd now just limit `update()` to a specific update rate and just use smaller values in these functions.)
+
+The positive value of `fDeltaY` is set directly in the `jump()` function:
+```
+void Character::jump()
+{
+	if (state == crouching)
+	{
+		state = idle;
+		return;
+	}
+	if (state != jumping && state != attacking)
+	{
+		bIsTouchingFloor = false;
+		state = jumping;
+		fDeltaY = jumpHeight;
+	}
+}
+```
+As for knowing when to stop 'jumping', the character has a rectangle member to act as the character's feet. This is used in `GameScreen` to check for collisions against all the elements of the `platforms` vector (wow this older code is quite messy, looking back):
+
+```
+//In GameScreen::update()
+for(auto& p : platforms)
+{
+	if (p_player->m_feetBox.intersects(p->getTop()) && p_player->getDeltaY() < 0)
+	{
+		p_player->setIsTouchingFloor(true);
+		break;
+	}
+
+	p_player->setIsTouchingFloor(false);
+}
+```
+
+If there is a collision, then a boolean in the character object, `bIsTouchingFloor`, is set to true via a getter (seriously, this gets messier the more I explain). The value of this boolean is checked against in `Character`'s `update()` function:
+
+```
+if (bIsTouchingFloor)
+{
+	if (state == jumping)
+	{
+			state = idle;
+		fDeltaY = -50;
+	}
+}
+```
+
+Writing this bit of readme has really made me want to tear this whole mechanic out and do it *better*. All these getters for `Character` members when I could have just referenced `platforms` in a function in the `Character` class and saved myself a lot of trouble.
 
 ### Screen system
 
@@ -32,6 +106,19 @@ screens.push_back(&menu);
 As mentioned earlier, all I have to do to make a new level is popluate the appropriate vectors and the base `GameScreen` class will handle the rest, as long as I call `GameScreen::run()` in the new derived class's `run()` function.
 
 This is all handled by having `GameScreen` iterate through each of the vectors of game objects (which are inherited and can be populated by the child class) in its own `update()` and `draw()` functions , which are then called by its `run()` function.
+
+All a new derived screen would need would be something like:
+
+```
+class Level2Screen : public GameScreen
+{
+
+int run(sf::RenderWindow &window) { GameScreen::run(window) + level specific things here };
+
+bool loadContent() { load your resources and populate your lists here };
+
+};
+```
 
 ### Memory Management
 
