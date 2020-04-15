@@ -16,7 +16,7 @@ As for actually loading different screens, that's handled by this little block h
 ```
 while (currentScreen >= 0 && currentScreen <= screens.size()) 
 {
-		currentScreen = screens[currentScreen]->run(window);
+	currentScreen = screens[currentScreen]->run(window);
 }
 ```
 Where the `run()` function of the screen at the index (`currentScreen`) will be executed next, and can return an int to break the loop and also return the index of the next desired screen (or return a value outside of the range of the vector to close the game)
@@ -30,12 +30,18 @@ screens.push_back(&menu);
 
 ### Memory Management
 
-Currently, the `GameScreen` class has vectors of unique pointers which are iterated through in the `render()` and `update()` methods to handle the game loops of the derived classes described above. These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with an auto for loop, for example:
+Currently, the `GameScreen` class has vectors of unique pointers which are iterated through in the `render()` and `update()` methods to handle the game loops of the derived classes described above. Unique pointers go great with vectors; all you need to do is declare it like you would a vector of raw pointers but, well, with `std::unique_pointer` instead, like so:
+
+`std::vector<std::unique_ptr<Platform>> platforms;`
+
+
+
+These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with an auto for loop, for example:
 
 ```
 for(auto &p : projectiles)
 {
-		p->draw(window);
+	p->draw(window);
 }
 ```
 
