@@ -130,7 +130,7 @@ Then, simply populate the vector:
 
 `platforms.emplace_back(std::make_unique<Platform>(params));`
 
-These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with an auto for loop, for example:
+These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with a range-based for loop, for example:
 
 ```
 for(auto &p : projectiles)
