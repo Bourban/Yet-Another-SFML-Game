@@ -34,7 +34,9 @@ Currently, the `GameScreen` class has vectors of unique pointers which are itera
 
 `std::vector<std::unique_ptr<Platform>> platforms;`
 
+Then, simply populate the vector:
 
+`platforms.emplace_back(std::make_unique<Platform>(params));`
 
 These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with an auto for loop, for example:
 
@@ -44,6 +46,7 @@ for(auto &p : projectiles)
 	p->draw(window);
 }
 ```
+And to clean everything up, rather than iterating through the vector and deleting everything, I just do nothing. Simply let it go out of scope and the unique pointers will handle the garbage collection themselves
 
 ### Resource allocation
 
