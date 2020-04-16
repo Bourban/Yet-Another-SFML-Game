@@ -10,6 +10,8 @@ I have been using this game to apply techniques I've learned about in books and 
 
 The base character class in this project contains a pseudo state machine (just an enum member) which allows me to change the behaviour of the `update()` function depending on the current state. For example if the character's current state is 'jumping' then `update()` will move the character down the appropriate amount. The value of this state member is also a condition for many of the character's input functions, for instance the character cannot crouch if they are currently 'jumping' conversely, if a character is crouching and they jump, the character will simply stand up (by changing the value of state to 'idle') instead. 
 
+I decided to give this a go after reading about the State pattern in Game Programming Patterns. It tidied up the mess of booleans and 3-way if statements of previous iterations of this project and made my code much more manageable.
+
 ### Character Platforming and Physics
 
 Built on this state system is the platforming system; every `Character` objecct has an `fDeltaY` member which, as you might guess, is the character's movement delta on the Y axis. This is applied to the character's movement if they are in the 'jumping' state, when the character jumps this is given a large positive value (controlled by `jumpHeight` in the `Character` class) and every subsequent frame this is reduced by the character's maximum fall speed (`maxFallSpeed`) to act as gravity, so that the character's jump mimics a real jump; a large initial impulse that is gradually reduced by gravity until it turns negative, and the character begins to fall. This negative velocity is capped at `maxFallSpeed` to mimic a terminal velocity.
