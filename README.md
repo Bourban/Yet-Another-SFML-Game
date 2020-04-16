@@ -1,3 +1,6 @@
+## Disclaimer
+I'm not sure what value this project on its own really has, features have been added not because they'd be beneficial to the game, but because I'd read about them and wanted some practice implementing them. This is made worse by the time frame of the development, some of these files are close to a year old and it shows. What you'll find is inconsistencies in all sorts of things from variable names in various styles -- some of them are in Hungarian notation, some just camelCase -- to inconsistencies in design -- the `screens` vector in main is a vector of raw pointers but elsewhere I've employed smart pointers -- and plenty of unnecessary features (does a game with 6 inputs and no rebindable keys *really* need a dedicated input handler?) because I just wanted some coding practice.
+
 # Yet-Another-SFML-Game
 Small platformer game made in SFML/C++. 
 
