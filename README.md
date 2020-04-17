@@ -14,7 +14,7 @@ I decided to give this a go after reading about the State pattern in Game Progra
 
 ### Component classes
 
-Several classess in the project are implemented as component classes. These classes are only instantiated as members (components) of other classes. In this project they have an 'owner' reference member which points to the object that 'owns' it at runtime. The `PlayerController` class is one such class, and has a constructor which takes a `Player*` parameter, this is assigned to `m_owner` in an initialiser list:
+Several classess in the project are implemented through dependency injection as component classes. These classes are only instantiated as members (components) of other classes. They have an 'owner' reference member which points to the object that 'owns' it at runtime. The `PlayerController` class is one such class, and has a constructor which takes a `Player*` parameter, this is assigned to `m_owner` in an initialiser list:
 
 `PlayerController::PlayerController(Player* player) : m_player(player){}`
 
@@ -79,15 +79,27 @@ Then, simply populate the vector:
 
 `platforms.emplace_back(std::make_unique<Platform>(params));`
 
-These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with a range-based for loop, for example:
+These were initially vectors of raw pointers handled by iterators but I have since updated them to smart pointers and now simply handle iterating through the vectors with a range-based for loop. I simply iterate through the vector and call each element's `update()` and `draw()` within `GameScreen`'s own `update()` and `draw()` and then any amount of objects will be automatically handled:
 
 ```
+//In GameScreen::update()
+
 for(auto &p : projectiles)
 {
-	p->draw(window);
+	p->update(params);
 }
 ```
-And to clean everything up, rather than iterating through the vector and deleting everything, I just do nothing. Simply let it go out of scope and the unique pointers will handle the garbage collection themselves
+and
+```
+//In GameScreen::draw()
+
+for(auto &p : projectiles)
+{
+	p->draw(params);
+}
+```
+
+And to clean everything up, rather than iterating through the vector and deleting each element, I just clear the vector. The smart pointers will then handle the garbage collection themselves.
 
 ### Resource allocation
 
