@@ -14,7 +14,7 @@ I decided to give this a go after reading about the State pattern in Game Progra
 
 ### Component classes
 
-Several classess in the project are implemented through dependency injection as component classes. These classes are only instantiated as members (components) of other classes. They have an 'owner' reference member which points to the object that 'owns' it at runtime. The `PlayerController` class is one such class, and has a constructor which takes a `Player*` parameter, this is assigned to `m_owner` in an initialiser list:
+Several classess in the project are implemented through dependency injection as component classes. These classes are only instantiated as members (components) of other classes. They have an 'owner' reference member which points to the object that 'owns' it at runtime. The `PlayerController` class is one such class, and has a constructor which takes a `Player*` parameter, this is assigned to `m_player` in an initialiser list:
 
 `PlayerController::PlayerController(Player* player) : m_player(player){}`
 
@@ -22,7 +22,7 @@ An instance of this class is created whenever a `Player` is instantiated automat
 
 `Player::Player(params) : m_controller(this) {} `
 
-The component class can access its parent through its `m_owner` member and the parent class can access the component class through its `m_controller` member.
+The component class can access its parent through its `m_player` member and the parent class can access the component class through its `m_controller` member.
 
 I plan to combine this component system with the command pattern to handle inputs in future, where the `Character` class will recieve its commands from a method in its `CharacterController`, which can point at one of two derived classes by exploiting Polymorphism (either `PlayerController` or `EnemyController`), which will override this method with the appropriate behaviour --  either getting the player's inputs and returning commands, or getting commands from an AI controller.
 
