@@ -144,7 +144,7 @@ case jumping:
 	break;
 ```
 
-(I should point out that these values are multiplied by `elapsed` in an attempt to compensate for varying frame rates. Like I said, some areas of this project are older, and I would not implement this in this manner if I were to start the project again because it technically makes the game non-deterministic (with the caveat of always having varying frame rates), and could be the source of some *interesting* bugs. Instead of just running `update()` as often as possible, I'd now just limit `update()` to a specific update rate and just use smaller values in these functions.)
+(I should point out that these values are multiplied by `elapsed` in an attempt to compensate for varying frame rates. Like I said, some areas of this project are older, and I would not implement this in this manner if I were to start the project again because it makes the game non-deterministic (Well, *technically*, it doesn't, assuming you could get a constant frame rate but if you could, you wouldn't need this at all, anyway.), and could be the source of all manner of bugs. Instead of just running `update()` as often as possible, I'd now just call `update()` at a fixed rate and not multiply the values at all)
 
 The positive value of `fDeltaY` is set directly in the `jump()` function:
 ```
