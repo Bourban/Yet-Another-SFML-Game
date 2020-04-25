@@ -4,5 +4,5 @@
 
 //include each individual screen here
 
-#include "Game.h"
+#include "GameScreen.h"
 #include "MenuScreen.h"

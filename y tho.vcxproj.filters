@@ -39,9 +39,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Screens</Filter>
-    </ClCompile>
     <ClCompile Include="MenuScreen.cpp">
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
     <ClCompile Include="BGSprite.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -90,9 +90,6 @@
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
     <ClInclude Include="MenuScreen.h">
-      <Filter>Header Files\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
@@ -130,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="BGSprite.h">
       <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,7 +22,7 @@ int main() {
 	MenuScreen menu;
 	screens.push_back(&menu);
 
-	Game game;
+	GameScreen game;
 	screens.push_back(&game);
 
 	while (currentScreen >= 0 && currentScreen <= screens.size()) 
