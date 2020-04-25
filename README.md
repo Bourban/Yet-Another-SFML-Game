@@ -4,6 +4,12 @@ I'm not sure what value this project on its own really has, most of the features
 # Yet-Another-SFML-Game
 Small platformer game made in SFML/C++. 
 
+Here's a badly embedded (because GitHub markdown doesn't support embedding YouTube vidoes, for some reason) YouTube video of some of these in action:
+
+<a target="_blank" href="http://www.youtube.com/watch?feature=player_embedded&v=IN_LSTCJTKE" target="_blank"><img src="http://img.youtube.com/vi/IN_LSTCJTKE/0.jpg" 
+alt="SFML Game" width="560" height="315" border="1" /></a>
+
+
 I have been using this game to apply techniques I've learned about in books and on StackOverflow, particularly the idea of having a "screen" system and trying to learn more about memory management. Older files may be of lower quality than newer ones as this experience has been quite beneficial to me and this project reflects that skill development.
 
 ### Character State Machine
